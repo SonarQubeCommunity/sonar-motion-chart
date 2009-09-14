@@ -1,0 +1,28 @@
+<%
+metrics = [Metric::AVG_CMPX_BY_FUNCTION,Metric::UNCOVERED_CMPX_BY_TESTS,Metric::COVERAGE,Metric::COMPLEXITY,Metric::NCLOC, Metric::COMMENT_LINES_DENSITY,
+Metric::TEST_SUCCESS_DENSITY,Metric::PUBLIC_DOCUMENTED_API_DENSITY,Metric::DUPLICATED_LINES_DENSITY,Metric::VIOLATIONS_DENSITY,Metric::TEST_EXECUTION_TIME,Metric::WEIGHTED_VIOLATIONS]
+%>
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("visualization", "1", {packages:["motionchart"]}); 
+	google.setOnLoadCallback(initialize); 
+
+	function initialize() {
+		var query = new google.visualization.Query('../../../api/resources_histo/<%=@project.id%>?out=json&metrics=<%=metrics.join(",")%>');
+		query.send(handleQueryResponse); // Send the query with a callback function
+	} 
+		
+	function handleQueryResponse(response) {
+		if (response.isError()) { 
+			alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+			return; 
+		}
+		var chart = new google.visualization.MotionChart(document.getElementById('chart_div'));
+		var options = {};
+		options['width'] = 800;
+		options['height'] = 600;
+		chart.draw(response.getDataTable(), options);
+	}
+</script>
+<div id="chart_div"></div>
