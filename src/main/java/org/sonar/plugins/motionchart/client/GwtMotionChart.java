@@ -49,51 +49,49 @@ public class GwtMotionChart extends AbstractPage {
 
   public void onModuleLoad() {
     final String projectKey = ResourceDictionary.getResourceKey();
-    if (projectKey != null) {
-      getRootPanel().add(new LoadingLabel());
-      
-      PropertiesQuery propsQ = new PropertiesQuery();
-      BaseQueryCallback<Properties> propsCb = new BaseQueryCallback<Properties>() {
-        public void onResponse(Properties response, JavaScriptObject jsonRawResponse) {
-          properties = response;
-        }
-      };
-      
-      metrics = new ArrayList<WSMetrics.Metric>();
-      metrics.add(WSMetrics.FUNCTION_COMPLEXITY); // X
-      metrics.add(WSMetrics.UNCOVERED_COMPLEXITY_BY_TESTS); // Y
-      metrics.add(WSMetrics.COVERAGE); // COLOR
-      metrics.add(WSMetrics.COMPLEXITY); // SIZE
-      
-      metrics.add(WSMetrics.TEST_SUCCESS_DENSITY);
-      metrics.add(WSMetrics.PUBLIC_DOCUMENTED_API_DENSITY);
-      metrics.add(WSMetrics.DUPLICATED_LINES_DENSITY);
-      metrics.add(WSMetrics.VIOLATIONS_DENSITY);
-      metrics.add(WSMetrics.NCLOC);
-      metrics.add(WSMetrics.TESTS_EXECUTION_TIME);
-      metrics.add(WSMetrics.WEIGHTED_VIOLATIONS);
-      metrics.add(WSMetrics.FUNCTION_COMPLEXITY);
-      
-      final Runnable onLoadCallback = new Runnable() {
-        public void run() {
-          ResourcesHistoQuery.get(projectKey)
-              .setMetrics(metrics)
-              .execute(new BaseQueryCallback<DataTable>() {
-                public void onResponse(DataTable response, JavaScriptObject jsonRawResponse) {
-                  MotionChart chart = new MotionChart(response.getTable(), createOptions());
-                  render(chart);
-                }
-              });
-        }
-      };
-      BaseQueryCallback<VoidResponse> queriesCb = new BaseQueryCallback<VoidResponse>() {
-        public void onResponse(VoidResponse response, JavaScriptObject jsonRawResponse) {
-          VisualizationUtils.loadVisualizationApi(onLoadCallback, MotionChart.PACKAGE);
-        }
-      };
-      SequentialQueries queries = SequentialQueries.get().add(propsQ, propsCb);
-      queries.execute(queriesCb);
-    }
+    getRootPanel().add(new LoadingLabel());
+    
+    PropertiesQuery propsQ = new PropertiesQuery();
+    BaseQueryCallback<Properties> propsCb = new BaseQueryCallback<Properties>() {
+      public void onResponse(Properties response, JavaScriptObject jsonRawResponse) {
+        properties = response;
+      }
+    };
+    
+    metrics = new ArrayList<WSMetrics.Metric>();
+    metrics.add(WSMetrics.VIOLATIONS_DENSITY); // X
+    metrics.add(WSMetrics.DUPLICATED_LINES_DENSITY); // Y
+    metrics.add(WSMetrics.COVERAGE); // COLOR
+    metrics.add(WSMetrics.COMPLEXITY); // SIZE
+    
+    metrics.add(WSMetrics.TEST_SUCCESS_DENSITY);
+    metrics.add(WSMetrics.PUBLIC_DOCUMENTED_API_DENSITY);
+    metrics.add(WSMetrics.UNCOVERED_COMPLEXITY_BY_TESTS);
+    metrics.add(WSMetrics.COMMENT_LINES_DENSITY);
+    metrics.add(WSMetrics.NCLOC);
+    metrics.add(WSMetrics.TESTS_EXECUTION_TIME);
+    metrics.add(WSMetrics.WEIGHTED_VIOLATIONS);
+    metrics.add(WSMetrics.FUNCTION_COMPLEXITY);
+    
+    final Runnable onLoadCallback = new Runnable() {
+      public void run() {
+        ResourcesHistoQuery.get(projectKey)
+            .setMetrics(metrics)
+            .execute(new BaseQueryCallback<DataTable>() {
+              public void onResponse(DataTable response, JavaScriptObject jsonRawResponse) {
+                MotionChart chart = new MotionChart(response.getTable(), createOptions());
+                render(chart);
+              }
+            });
+      }
+    };
+    BaseQueryCallback<VoidResponse> queriesCb = new BaseQueryCallback<VoidResponse>() {
+      public void onResponse(VoidResponse response, JavaScriptObject jsonRawResponse) {
+        VisualizationUtils.loadVisualizationApi(onLoadCallback, MotionChart.PACKAGE);
+      }
+    };
+    SequentialQueries queries = SequentialQueries.get().add(propsQ, propsCb);
+    queries.execute(queriesCb);
   }
   
   private void render(MotionChart chart) {
@@ -104,6 +102,8 @@ public class GwtMotionChart extends AbstractPage {
     Options options = Options.create();
     options.setWidth(Integer.parseInt(properties.get(GwtMotionChart.WIDTH_PROP, GwtMotionChart.DEFAULT_WIDTH)));
     options.setHeight(Integer.parseInt(properties.get(GwtMotionChart.HEIGHT_PROP, GwtMotionChart.DEFAULT_HEIGHT)));
+    // state options does unfortunalty not work see http://code.google.com/apis/visualization/documentation/gallery/motionchart.html#Motion_Chart_initial_state
+    //options.setOption("state", "{...}");
     return options;
   }
 }

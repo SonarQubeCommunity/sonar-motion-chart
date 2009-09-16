@@ -62,7 +62,9 @@ public final class ResourcesHistoQuery extends AbstractResourceQuery<DataTable> 
 
   @Override
   public String toString() {
-    String url = Utils.getServerApiUrl() + "/resources_histo/" + getResourceKey() + "?out=json&";
+    String url = Utils.getServerApiUrl() + "/resources_histo";
+    url = getResourceKey() == null ? url : url + "/" + getResourceKey();
+    url +=  "?out=json&";
     if (metrics != null) {
       url += "metrics=" + metrics;
     }
@@ -74,6 +76,7 @@ public final class ResourcesHistoQuery extends AbstractResourceQuery<DataTable> 
     Callback queryCallBack = new Callback() {
       public void onResponse(QueryResponse response) {
         if (response.isError()) {
+          // not great but unfortunatly QueryResponse does not provide a better way to detect timeout 
           if (response.getMessage().toLowerCase().contains("timed out")) {
             callback.onTimeout();
           } else {
