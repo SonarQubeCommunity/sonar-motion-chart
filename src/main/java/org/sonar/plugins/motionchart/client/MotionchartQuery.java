@@ -30,25 +30,20 @@ import com.google.gwt.visualization.client.Query;
 import com.google.gwt.visualization.client.QueryResponse;
 import com.google.gwt.visualization.client.Query.Callback;
 
-public final class ResourcesHistoQuery extends AbstractResourceQuery<DataTable> {
+public final class MotionchartQuery extends AbstractResourceQuery<DataTable> {
 
   private String metrics;
 
-  public static ResourcesHistoQuery get(String resourceKey) {
-    return new ResourcesHistoQuery(resourceKey);
+  public static MotionchartQuery get(String resourceKey) {
+    return new MotionchartQuery(resourceKey);
   }
 
-  private ResourcesHistoQuery(String resourceKey) {
+  private MotionchartQuery(String resourceKey) {
     super(resourceKey);
   }
 
-  public ResourcesHistoQuery setMetrics(List<Metric> metrics) {
+  public MotionchartQuery setMetrics(List<Metric> metrics) {
     this.metrics = getMetricsWSRequest(metrics);
-    return this;
-  }
-
-  public ResourcesHistoQuery setMetric(Metric m) {
-    this.metrics = m.getKey();
     return this;
   }
 
@@ -62,11 +57,10 @@ public final class ResourcesHistoQuery extends AbstractResourceQuery<DataTable> 
 
   @Override
   public String toString() {
-    String url = Utils.getServerApiUrl() + "/resources_histo";
-    url = getResourceKey() == null ? url : url + "/" + getResourceKey();
-    url +=  "?out=json&";
+    String url = Utils.getServerApiUrl() + "/plugins/RubyMotionchartWebService";
+    url = getResourceKey() == null ? url + "?out=json" : url + "?resource=" + getResourceKey() + "&out=json";
     if (metrics != null) {
-      url += "metrics=" + metrics;
+      url += "&metrics=" + metrics;
     }
     return url;
   }

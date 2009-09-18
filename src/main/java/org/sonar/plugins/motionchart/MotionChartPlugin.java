@@ -57,6 +57,7 @@ public class MotionChartPlugin implements Plugin {
   public List<Class<? extends Extension>> getExtensions() {
     List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
     extensions.add(GwtMotionChartPage.class);
+    extensions.add(RubyMotionChartWebService.class);
     // for dev to avoid Cross scripting Ajax call issues with Gwt use the Ruby page
     //extensions.add(RubyMotionChartPage.class);
     return extensions;

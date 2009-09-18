@@ -75,7 +75,7 @@ public class GwtMotionChart extends AbstractPage {
     
     final Runnable onLoadCallback = new Runnable() {
       public void run() {
-        ResourcesHistoQuery.get(projectKey)
+        MotionchartQuery.get(projectKey)
             .setMetrics(metrics)
             .execute(new BaseQueryCallback<DataTable>() {
               public void onResponse(DataTable response, JavaScriptObject jsonRawResponse) {
