@@ -9,12 +9,11 @@
     <relativePath>../parent</relativePath>
   </parent>
 
-  <artifactId>sonar-motionchart-plugin</artifactId>
+  <artifactId>sonar-motion-chart-plugin</artifactId>
   <packaging>jar</packaging>
   <version>0.1-SNAPSHOT</version>
-  <name>Motionchart plugin</name>
-  <description>Sonar GWT motionchart plugin</description>
-
+  <name>Sonar Motion Chart plugin</name>
+  
   <properties>
     <sonar.plugin.class>org.sonar.plugins.motionchart.MotionChartPlugin</sonar.plugin.class>
     <sonar.version>1.11-SNAPSHOT</sonar.version>
