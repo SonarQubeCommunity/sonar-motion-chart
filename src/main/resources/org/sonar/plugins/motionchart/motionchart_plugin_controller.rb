@@ -29,18 +29,10 @@ class Api::GwpJsonTime
   end
 end
 class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
-  
-  def index
-    begin
-      measures_history
-    rescue Exception => error
-      rest_gwp_exception(error)
-    end
-  end
-  
+
   private
   
-  def measures_history
+  def rest_call
     metrics=Metric.by_keys(params[:metrics].split(','))
     
     if @resource
