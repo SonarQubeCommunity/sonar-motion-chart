@@ -19,16 +19,15 @@
  */
 package org.sonar.plugins.motionchart.client;
 
-import java.util.List;
-
+import com.google.gwt.visualization.client.Query;
+import com.google.gwt.visualization.client.Query.Callback;
+import com.google.gwt.visualization.client.QueryResponse;
 import org.sonar.api.web.gwt.client.Utils;
 import org.sonar.api.web.gwt.client.webservices.AbstractResourceQuery;
 import org.sonar.api.web.gwt.client.webservices.QueryCallBack;
 import org.sonar.api.web.gwt.client.webservices.WSMetrics.Metric;
 
-import com.google.gwt.visualization.client.Query;
-import com.google.gwt.visualization.client.QueryResponse;
-import com.google.gwt.visualization.client.Query.Callback;
+import java.util.List;
 
 public final class MotionchartQuery extends AbstractResourceQuery<DataTable> {
 
@@ -47,7 +46,7 @@ public final class MotionchartQuery extends AbstractResourceQuery<DataTable> {
     return this;
   }
 
-  private final String getMetricsWSRequest(List<Metric> metrics) {
+  private String getMetricsWSRequest(List<Metric> metrics) {
     StringBuilder metricsDelimByComma = new StringBuilder(64);
     for (Metric metric : metrics) {
       metricsDelimByComma.append(metric.getKey()).append(",");
@@ -84,5 +83,5 @@ public final class MotionchartQuery extends AbstractResourceQuery<DataTable> {
     Query query = Query.create(toString());
     query.send(queryCallBack);
   }
-  
+
 }

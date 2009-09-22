@@ -19,8 +19,8 @@
  */
 package org.sonar.plugins.motionchart;
 
-import org.sonar.api.web.views.GwtPage;
-import org.sonar.api.web.views.NavigationSection;
+import org.sonar.api.web.GwtPage;
+import org.sonar.api.web.NavigationSection;
 import org.sonar.plugins.motionchart.client.GwtMotionChart;
 
 @NavigationSection({NavigationSection.PROJECT, NavigationSection.HOME})

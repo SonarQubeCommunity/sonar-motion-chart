@@ -19,12 +19,12 @@
  */
 package org.sonar.plugins.motionchart;
 
-import org.sonar.api.web.views.AbstractRubyTemplate;
-import org.sonar.api.web.views.NavigationSection;
-import org.sonar.api.web.views.RubyRailsPage;
+import org.sonar.api.web.AbstractRubyTemplate;
+import org.sonar.api.web.NavigationSection;
+import org.sonar.api.web.RubyRailsPage;
 
 @NavigationSection(NavigationSection.PROJECT)
-public class RubyMotionChartPage extends AbstractRubyTemplate implements RubyRailsPage {
+public class DevRubyMotionChartPage extends AbstractRubyTemplate implements RubyRailsPage {
 
   public String getTitle() {
     return "Dev Motion chart";
