@@ -80,7 +80,7 @@ public class GwtMotionChart extends AbstractPage {
             .execute(new BaseQueryCallback<DataTable>() {
               public void onResponse(DataTable response, JavaScriptObject jsonRawResponse) {
                 MotionChart chart = new MotionChart(response.getTable(), createOptions());
-                render(chart);
+                displayView(chart);
               }
             });
       }
@@ -92,10 +92,6 @@ public class GwtMotionChart extends AbstractPage {
     };
     SequentialQueries queries = SequentialQueries.get().add(propsQ, propsCb);
     queries.execute(queriesCb);
-  }
-  
-  private void render(MotionChart chart) {
-    displayView(chart);
   }
   
   private Options createOptions() {

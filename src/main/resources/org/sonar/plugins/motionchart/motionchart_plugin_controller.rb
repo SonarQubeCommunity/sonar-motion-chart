@@ -37,12 +37,6 @@ class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
     
     if @resource
       last_snapshot=@resource.last_snapshot
-  
-      if (last_snapshot.nil? && !is_viewer?) or (last_snapshot && !is_resource_viewer?(last_snapshot))
-        access_denied
-        return
-      end
-  
       snapshots=Snapshot.find(:all, :conditions => {:project_id => @resource.id, :status => Snapshot::STATUS_PROCESSED}, :order => 'created_at')
       # get all the first level child snapshots for this parent
       child_snapshots=Snapshot.find(:all, :conditions => 
