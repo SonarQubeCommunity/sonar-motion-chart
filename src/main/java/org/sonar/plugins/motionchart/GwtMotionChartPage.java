@@ -23,7 +23,7 @@ import org.sonar.api.web.GwtPage;
 import org.sonar.api.web.NavigationSection;
 import org.sonar.plugins.motionchart.client.GwtMotionChart;
 
-@NavigationSection({NavigationSection.PROJECT, NavigationSection.HOME})
+@NavigationSection({NavigationSection.RESOURCE, NavigationSection.HOME})
 public class GwtMotionChartPage extends GwtPage {
 
   public String getGwtId() {

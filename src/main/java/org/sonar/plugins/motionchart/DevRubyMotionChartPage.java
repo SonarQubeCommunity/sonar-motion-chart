@@ -23,7 +23,7 @@ import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
 import org.sonar.api.web.RubyRailsPage;
 
-@NavigationSection(NavigationSection.PROJECT)
+@NavigationSection(NavigationSection.RESOURCE)
 public class DevRubyMotionChartPage extends AbstractRubyTemplate implements RubyRailsPage {
 
   public String getTitle() {
