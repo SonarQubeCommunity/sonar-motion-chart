@@ -17,17 +17,6 @@
 # License along with Sonar; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 #
-class Api::GwpJsonTime
-  @time
-  
-  def initialize(time)
-    @time = time
-  end
-  
-  def to_json(options = nil)
-    "new Date(#{@time.year},#{@time.month-1},#{@time.day},#{@time.hour},#{@time.min},#{@time.sec})"
-  end
-end
 class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
 
   private
@@ -110,34 +99,34 @@ class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
             metrics.select{|m| m.id}, child_snapshots.map{|s| s.id}], :order => "project_measures.value")
   end
   
-  def rest_to_json(objects)
+  def fill_gwp_data_table(objects, data_table)
     metrics = objects[:metrics]
-    snapshots_measures_by_resource = objects[:snapshots_measures_by_resource]
-      
-    table = {:cols => to_json_cols_header(metrics), :rows => []}
-    snapshots_measures_by_resource.each_pair do |resource, snapshots_measures|
+    add_cols(data_table, metrics)
+    
+    objects[:snapshots_measures_by_resource].each_pair do |resource, snapshots_measures|
       snapshots_measures.each_pair do |snapshot, measures_by_metrics|
-        table[:rows] << to_json(resource, snapshot, measures_by_metrics, metrics)
+        measures_for_row(data_table, resource, snapshot, measures_by_metrics, metrics)
       end
     end
-    rest_gwp_ok(table)
   end
-  
-  def to_json_cols_header(metrics)
-    cols = [{ 'id' => 'r', :label => 'Resource', :type => 'string'}, { :id => 'd', :label => 'Date', :type => 'datetime'}]
+
+  def add_cols(data_table, metrics)
+    add_column(data_table, 'r', 'Resource', TYPE_STRING)
+    add_column(data_table, 'd', 'Date', TYPE_DATE_TIME)
     metrics.each do |metric|
-      cols << { :id => metric.key, :label => metric.short_name, :type => 'number'}
+      add_column(data_table, metric.key, metric.short_name, TYPE_NUMBER)
     end
-    return cols
   end
   
-  def to_json(resource, snapshot, measures_by_metrics, metrics)
-    json = [{:v => resource.fullname}, {:v => Api::GwpJsonTime.new(snapshot.created_at)}]
+  def measures_for_row(data_table, resource, snapshot, measures_by_metrics, metrics)
+    row = new_row(data_table)
+    add_row_value(row, resource.fullname)
+    add_row_value(row, Api::GwpJsonTime.new(snapshot.created_at))
+   
     metrics.each do |metric|
       measure = measures_by_metrics[metric.id]
-      json << {:v => measure.nil? ? nil : measure.value}
+      add_row_value(row, (measure.nil? ? nil : measure.value))
     end
-    return {:c => json}
   end
 
 end

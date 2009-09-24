@@ -30,9 +30,12 @@ import org.sonar.api.web.gwt.client.webservices.PropertiesQuery;
 import org.sonar.api.web.gwt.client.webservices.SequentialQueries;
 import org.sonar.api.web.gwt.client.webservices.VoidResponse;
 import org.sonar.api.web.gwt.client.webservices.WSMetrics;
+import org.sonar.api.web.gwt.client.webservices.WSMetrics.Metric;
 import org.sonar.api.web.gwt.client.widgets.LoadingLabel;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.MotionChart;
 import com.google.gwt.visualization.client.visualizations.MotionChart.Options;
@@ -44,7 +47,6 @@ public class GwtMotionChart extends AbstractPage {
   public static final String HEIGHT_PROP = "sonar.motionchart.height";
   public static final String WIDTH_PROP = "sonar.motionchart.width";
   
-  private List<WSMetrics.Metric> metrics = null;
   private Properties properties = null;
 
   public void onModuleLoad() {
@@ -57,30 +59,16 @@ public class GwtMotionChart extends AbstractPage {
         properties = response;
       }
     };
-    
-    metrics = new ArrayList<WSMetrics.Metric>();
-    metrics.add(WSMetrics.VIOLATIONS_DENSITY); // X
-    metrics.add(WSMetrics.DUPLICATED_LINES_DENSITY); // Y
-    metrics.add(WSMetrics.COVERAGE); // COLOR
-    metrics.add(WSMetrics.COMPLEXITY); // SIZE
-    
-    metrics.add(WSMetrics.TEST_SUCCESS_DENSITY);
-    metrics.add(WSMetrics.PUBLIC_DOCUMENTED_API_DENSITY);
-    metrics.add(WSMetrics.UNCOVERED_COMPLEXITY_BY_TESTS);
-    metrics.add(WSMetrics.COMMENT_LINES_DENSITY);
-    metrics.add(WSMetrics.NCLOC);
-    metrics.add(WSMetrics.TESTS_EXECUTION_TIME);
-    metrics.add(WSMetrics.WEIGHTED_VIOLATIONS);
-    metrics.add(WSMetrics.FUNCTION_COMPLEXITY);
-    
+
     final Runnable onLoadCallback = new Runnable() {
       public void run() {
         MotionchartQuery.get(projectKey)
-            .setMetrics(metrics)
+            .setMetrics(getDefaultMetrics())
             .execute(new BaseQueryCallback<DataTable>() {
               public void onResponse(DataTable response, JavaScriptObject jsonRawResponse) {
-                MotionChart chart = new MotionChart(response.getTable(), createOptions());
-                displayView(chart);
+                Widget toDisplay = response.getTable().getNumberOfRows() > 0 ? 
+                    new MotionChart(response.getTable(), createOptions()) : getNoProjects();
+                displayView(toDisplay);
               }
             });
       }
@@ -92,6 +80,32 @@ public class GwtMotionChart extends AbstractPage {
     };
     SequentialQueries queries = SequentialQueries.get().add(propsQ, propsCb);
     queries.execute(queriesCb);
+  }
+  
+  private Widget getNoProjects() {
+    String msg = "<h3>No projects have been analysed.</h3>" +
+                 "<p>If Maven and Sonar are installed with default parameters on the same box, just launch the command" +
+                 "<code>mvn sonar:sonar</code> to analyse your first project. In any other case, please refer to the " +
+                 "<a href='http://sonar.codehaus.org/documentation'>documentation</a>.</p>";
+    return new HTML(msg);
+  }
+
+  private List<Metric> getDefaultMetrics() {
+    List<Metric> defaults = new ArrayList<Metric>();
+    defaults.add(WSMetrics.VIOLATIONS_DENSITY); // X
+    defaults.add(WSMetrics.DUPLICATED_LINES_DENSITY); // Y
+    defaults.add(WSMetrics.COVERAGE); // COLOR
+    defaults.add(WSMetrics.COMPLEXITY); // SIZE
+    
+    defaults.add(WSMetrics.TEST_SUCCESS_DENSITY);
+    defaults.add(WSMetrics.PUBLIC_DOCUMENTED_API_DENSITY);
+    defaults.add(WSMetrics.UNCOVERED_COMPLEXITY_BY_TESTS);
+    defaults.add(WSMetrics.COMMENT_LINES_DENSITY);
+    defaults.add(WSMetrics.NCLOC);
+    defaults.add(WSMetrics.TESTS_EXECUTION_TIME);
+    defaults.add(WSMetrics.WEIGHTED_VIOLATIONS);
+    defaults.add(WSMetrics.FUNCTION_COMPLEXITY);
+    return defaults;
   }
   
   private Options createOptions() {
