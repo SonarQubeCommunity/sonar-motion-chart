@@ -99,7 +99,7 @@ public class GwtMotionChart extends AbstractPage {
     
     defaults.add(WSMetrics.TEST_SUCCESS_DENSITY);
     defaults.add(WSMetrics.PUBLIC_DOCUMENTED_API_DENSITY);
-    defaults.add(WSMetrics.UNCOVERED_COMPLEXITY_BY_TESTS);
+    defaults.add(WSMetrics.UNCOVERED_LINES);
     defaults.add(WSMetrics.COMMENT_LINES_DENSITY);
     defaults.add(WSMetrics.NCLOC);
     defaults.add(WSMetrics.TESTS_EXECUTION_TIME);
