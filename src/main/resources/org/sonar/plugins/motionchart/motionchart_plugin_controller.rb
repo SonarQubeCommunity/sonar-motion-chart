@@ -17,7 +17,7 @@
 # License along with Sonar; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 #
-class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
+class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
   private
   
@@ -57,7 +57,7 @@ class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
     snapshots_measures_by_resource = {}
 
     # ---------- SORT RESOURCES
-    if not measures.empty?  
+    if !measures.empty?  
       measures_by_sid = {}
       measures.each do |measure|
         measures_by_sid[measure.snapshot_id]||=[]
@@ -78,7 +78,7 @@ class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
           measures.each do |measure|
             measures_by_metrics[measure.metric_id] = measure
           end
-          snapshots_measures[snapshot] = measures_by_metrics if not measures.empty?
+          snapshots_measures[snapshot] = measures_by_metrics if !measures.empty?
         end
         snapshots_measures_by_resource[resource] = snapshots_measures
       end
@@ -87,14 +87,10 @@ class Api::RubyMotionchartWebServiceController < Api::GwpResourcesController
     # ---------- FORMAT RESPONSE
     rest_render({ :metrics => metrics, :snapshots_measures_by_resource => snapshots_measures_by_resource, :params => params})
   end
-  
-  def select_columns_for_measures
-    'project_measures.id,project_measures.value,project_measures.metric_id,project_measures.snapshot_id'
-  end
-  
+    
   def get_measures(metrics, child_snapshots)
     ProjectMeasure.find(:all,
-          :select => select_columns_for_measures,
+          :select => 'project_measures.id,project_measures.value,project_measures.metric_id,project_measures.snapshot_id',
           :conditions => ['rules_category_id IS NULL and rule_id IS NULL and rule_priority IS NULL and metric_id IN (?) and snapshot_id IN (?)',
             metrics.select{|m| m.id}, child_snapshots.map{|s| s.id}], :order => "project_measures.value")
   end

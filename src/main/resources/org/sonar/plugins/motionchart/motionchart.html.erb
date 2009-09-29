@@ -1,23 +1,19 @@
 <%
 plugin_class = Java::OrgSonarPluginsMotionchart::MotionChartPlugin
-# future 1.12 API version can be refactored with : configuration(plugin_class::AXIS_METRICS_PROP, plugin_class::DEFAULT_AXIS_METRICS)
-metrics = configuration(plugin_class::AXIS_METRICS_PROP).nil? ? plugin_class::DEFAULT_AXIS_METRICS : configuration(plugin_class::AXIS_METRICS_PROP)
-metrics = metrics + "," + (configuration(plugin_class::METRICS_LIST_PROP).nil? ? plugin_class::DEFAULT_METRICS : configuration(plugin_class::METRICS_LIST_PROP))
-rmws_url = "#{ApplicationController.root_context}/api/plugins/RubyMotionchartWebService?out=json&metrics=#{metrics}"
-rmws_url = rmws_url + "&resource=#{@project.id}" if @project
+metrics = Property.value(plugin_class::DEFAULT_METRICS_KEY, nil, plugin_class::DEFAULT_METRICS_VALUE) + ',' + Property.value(plugin_class::ADDITIONAL_METRICS_KEY, nil, plugin_class::ADDITIONAL_METRICS_DEFAULT_VALUE)
+ws_url = "#{ApplicationController.root_context}/api/plugins/MotionchartWebService?out=json&metrics=#{metrics}"
+ws_url = ws_url + "&resource=#{@project.id}" if @project
 %>
-<%= render :partial => '/project/snapshot_title' %>
 <%= image_tag('loading.gif', {:id => "mc_loading"}) %>
 <div id="motion_chart"></div>
 <div id="no_data" style="display:none">
-	<h3>No projects have been analysed.</h3>
-	<p>If Maven and Sonar are installed with default parameters on the same box, just launch the command <code>mvn sonar:sonar</code> to analyse your first project. In any other case, please refer to the <a href="http://sonar.codehaus.org/documentation">documentation</a>.</p>
+	<h3>No projects.</h3>
 </div>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 
 	function motion_chart_query() {
-		var query = new google.visualization.Query('<%=rmws_url%>');
+		var query = new google.visualization.Query('<%=ws_url%>');
 		query.send(motion_chart_query_callback);
 	} 
 
@@ -37,8 +33,8 @@ rmws_url = rmws_url + "&resource=#{@project.id}" if @project
 	function render_motion_chart(data_table) {
 		var chart = new google.visualization.MotionChart(document.getElementById('motion_chart'));
 		var options = {};
-		options['width'] = <%= configuration(plugin_class::WIDTH_PROP).nil? ? plugin_class::DEFAULT_WIDTH : configuration(plugin_class::WIDTH_PROP) %>;
-		options['height'] = <%= configuration(plugin_class::HEIGHT_PROP).nil? ? plugin_class::DEFAULT_HEIGHT : configuration(plugin_class::HEIGHT_PROP) %>;
+		options['width'] = <%= Property.value(plugin_class::WIDTH_KEY, nil, plugin_class::DEFAULT_WIDTH) -%>;
+		options['height'] = <%= Property.value(plugin_class::HEIGHT_KEY, nil, plugin_class::DEFAULT_HEIGHT) -%>;
 		chart.draw(data_table, options);
 	}
 	

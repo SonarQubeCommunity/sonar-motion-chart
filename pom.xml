@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -13,7 +14,15 @@
   <packaging>jar</packaging>
   <version>0.1-SNAPSHOT</version>
   <name>Sonar Motion Chart plugin</name>
-  
+
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License (LGPL), v.3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
     <sonar.plugin.class>org.sonar.plugins.motionchart.MotionChartPlugin</sonar.plugin.class>
     <sonar.version>1.11-SNAPSHOT</sonar.version>
@@ -42,13 +51,6 @@
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <version>${sonar.version}</version>
-    </dependency>
-    <!-- unit tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.6</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 

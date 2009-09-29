@@ -20,22 +20,17 @@
 package org.sonar.plugins.motionchart;
 
 import org.sonar.api.web.AbstractRubyTemplate;
-import org.sonar.api.web.NavigationSection;
-import org.sonar.api.web.RubyRailsPage;
+import org.sonar.api.web.RubyRailsWebservice;
 
-@NavigationSection({NavigationSection.RESOURCE, NavigationSection.HOME})
-public class RubyMotionChartPage extends AbstractRubyTemplate implements RubyRailsPage {
-
-  public String getTitle() {
-    return "Motion chart";
-  }
+public class MotionChartWebService extends AbstractRubyTemplate implements RubyRailsWebservice {
 
   @Override
   public String getTemplatePath() {
-    return "/org/sonar/plugins/motionchart/motionchart.html.erb";
+    return "/org/sonar/plugins/motionchart/motionchart_plugin_controller.rb";
   }
 
   public String getId() {
-    return this.getClass().getName();
+    return "MotionchartWebService";
   }
+
 }
