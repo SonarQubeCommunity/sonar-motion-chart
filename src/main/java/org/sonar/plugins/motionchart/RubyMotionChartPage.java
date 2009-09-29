@@ -19,18 +19,23 @@
  */
 package org.sonar.plugins.motionchart;
 
-import org.sonar.api.web.GwtPage;
+import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
-import org.sonar.plugins.motionchart.client.GwtMotionChart;
+import org.sonar.api.web.RubyRailsPage;
 
 @NavigationSection({NavigationSection.RESOURCE, NavigationSection.HOME})
-public class GwtMotionChartPage extends GwtPage {
-
-  public String getGwtId() {
-    return GwtMotionChart.GWT_ID;
-  }
+public class RubyMotionChartPage extends AbstractRubyTemplate implements RubyRailsPage {
 
   public String getTitle() {
     return "Motion chart";
+  }
+
+  @Override
+  public String getTemplatePath() {
+    return "/org/sonar/plugins/motionchart/motionchart.html.erb";
+  }
+
+  public String getId() {
+    return this.getClass().getName();
   }
 }
