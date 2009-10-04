@@ -25,7 +25,7 @@
 
   <properties>
     <sonar.plugin.class>org.sonar.plugins.motionchart.MotionChartPlugin</sonar.plugin.class>
-    <sonar.version>1.11-SNAPSHOT</sonar.version>
+    <sonar.version>1.11</sonar.version>
   </properties>
 
   <scm>
