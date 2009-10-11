@@ -22,6 +22,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
   private
 
   MAX_IN_ELEMENTS=990
+  EMPTY_HASH={}
 
   def rest_call
     metrics=Metric.by_keys(params[:metrics].split(','))
@@ -117,8 +118,10 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     end
 
     measures.each do |measure|
-      row=row_per_sid[measure.snapshot_id]
-      row[metric_index_per_id[measure.metric_id]]=measure.value
+      if measure.value
+        row=row_per_sid[measure.snapshot_id]
+        row[metric_index_per_id[measure.metric_id]]=((measure.value*100).to_i)/100.0
+      end
     end
     rows
   end
@@ -140,6 +143,18 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     end
   end
 
+  def add_row_value(row, value, formatted_value = nil)
+    if value
+      if formatted_value
+        row[:c] << {:v => value, :f => formatted_value}
+      else
+        row[:c] << {:v => value}
+      end
+    else
+      row[:c] << EMPTY_HASH
+    end
+  end
+
   def filter_all_projects(snapshots)
     snapshots_per_resource_id={}
     snapshots.each do |snapshot|
@@ -156,9 +171,9 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
   def compact(array, max_size=30)
     return array if array.size<=max_size
-    # example : array size is 80. The goal is to compact to 50.
+    # example : array size is 80. The goal is to compact to 30.
 
-    # remove one item on three => (80/50)+1
+    # remove one item on three => (80/30)+1
     frequency=(array.size/max_size)+1
     for i in frequency-1 .. array.size-1 do
       if (i.modulo(frequency)==0 && array.nitems>max_size)
