@@ -64,8 +64,8 @@ public class MotionChartPlugin implements Plugin {
 
   public static final String ADDITIONAL_METRICS_KEY = "sonar.motionchart.additionalmetrics";
 
-  public static final String ADDITIONAL_METRICS_DEFAULT_VALUE = "duplicated_lines_density,test_success_density,public_documented_api_density,uncovered_lines," +
-      "comment_lines_density,ncloc,test_execution_time,weighted_violations,function_complexity";
+  public static final String ADDITIONAL_METRICS_DEFAULT_VALUE = "duplicated_lines_density,public_documented_api_density,uncovered_lines," +
+      "ncloc,test_execution_time,function_complexity";
 
   public String getKey() {
     return "motionchart";

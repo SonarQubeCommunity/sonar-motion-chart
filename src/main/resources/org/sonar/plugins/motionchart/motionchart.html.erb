@@ -4,7 +4,36 @@ metrics = Property.value(plugin_class::DEFAULT_METRICS_KEY, nil, plugin_class::D
 ws_url = "#{ApplicationController.root_context}/api/plugins/MotionchartWebService?out=json&metrics=#{metrics}"
 ws_url = ws_url + "&resource=#{@project.id}" if @project
 %>
-<%= image_tag('loading.gif', {:id => "mc_loading"}) %>
+<form>
+<table>
+		<tr>
+		  <td><span class="note">Period: </span>
+        <select name="period" class="small" id="mc_period" onChange="motion_chart_query();return false;">
+          <option value="1">One month</option>
+          <option value="3" selected="selected">Three months</option>
+          <option value="6">Six months</option>
+          <option value="12">One year</option>
+          <option value="60">Max</option>
+        </select>
+      </td>
+
+      <% if @project %>
+      <td width="15px"> </td>
+      <td><span class="note">Components: </span>
+        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onChange="motion_chart_query();return false;"></input>
+      </td>
+      <% else %>
+        <input type="hidden" name="components" id="mc_components"></input>
+      <% end %>
+
+
+      <td width="15px"> </td>
+      <td>
+        <%= image_tag('loading.gif', {:id => "mc_loading"}) %>
+      </td>
+    </tr>
+</table>
+</form>
 <div id="motion_chart"></div>
 <div id="no_data" style="display:none">
 	<p>No data.</p>
@@ -13,7 +42,10 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
 <script type="text/javascript">
 
 	function motion_chart_query() {
-		var query = new google.visualization.Query('<%=ws_url%>');
+	  $('mc_loading').show();
+	  $('motion_chart').hide();
+	  $('no_data').hide();
+		var query = new google.visualization.Query('<%= ws_url -%>&period=' + $F('mc_period') + '&components=' + $F('mc_components'));
 		query.send(motion_chart_query_callback);
 	} 
 
@@ -24,6 +56,7 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
 			return; 
 		}
 		if (response.getDataTable().getNumberOfRows() > 0) {
+		  $('motion_chart').show();
 			render_motion_chart(response.getDataTable());
 		} else {
 			$('no_data').show();
