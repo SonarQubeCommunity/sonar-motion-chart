@@ -20,7 +20,7 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
       <% if @project %>
       <td width="15px"> </td>
       <td><span class="note">Components: </span>
-        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onChange="motion_chart_query();return false;"></input>
+        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onclick="motion_chart_query();return false;"></input>
       </td>
       <% else %>
         <input type="hidden" name="components" id="mc_components"></input>
