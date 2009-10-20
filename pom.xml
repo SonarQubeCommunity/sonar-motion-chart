@@ -25,7 +25,6 @@
 
   <properties>
     <sonar.plugin.class>org.sonar.plugins.motionchart.MotionChartPlugin</sonar.plugin.class>
-    <sonar.version>1.11</sonar.version>
   </properties>
 
   <scm>
@@ -56,7 +55,7 @@
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.version}</version>
+      <version>1.11</version>
     </dependency>
   </dependencies>
 

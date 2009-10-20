@@ -20,7 +20,7 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
       <% if @project %>
       <td width="15px"> </td>
       <td><span class="note">Components: </span>
-        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onclick="motion_chart_query();return false;"></input>
+        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onclick="motion_chart_query();return true;"></input>
       </td>
       <% else %>
         <input type="hidden" name="components" id="mc_components"></input>
@@ -45,7 +45,11 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
 	  $('mc_loading').show();
 	  $('motion_chart').hide();
 	  $('no_data').hide();
-		var query = new google.visualization.Query('<%= ws_url -%>&period=' + $F('mc_period') + '&components=' + $F('mc_components'));
+	  var url= '<%= ws_url -%>&period=' + $F('mc_period');
+	  if ($F('mc_components')!=null) {
+	    url += '&components=' + $F('mc_components');
+	  }
+		var query = new google.visualization.Query(url);
 		query.send(motion_chart_query_callback);
 	} 
 
