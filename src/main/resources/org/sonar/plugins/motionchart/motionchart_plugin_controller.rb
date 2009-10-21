@@ -28,7 +28,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     @metrics=Metric.by_keys(params[:metrics].split(','))
 
     period_in_months=(params[:period] || 3).to_i
-    min_date=Date.today()<<period_in_months
+    @min_date=Date.today()<<period_in_months
 
     #
     # results are limited to 30 snapshots per resource
@@ -126,7 +126,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
   def reference_dates(min_date, max_date, interval_in_days)
     dates=[]
-    max_date.to_date.step(min_date.to_date, -interval_in_days) do |d|
+    max_date.step(min_date, -interval_in_days) do |d|
       dates<<d
     end
     dates
@@ -144,7 +144,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
   # snapshots: descending sort
   def load_rows(snapshots)
     # dates: descending sort
-    dates=reference_dates(snapshots[-1].created_at, snapshots[0].created_at, @date_interval_in_days)
+    dates=reference_dates(@min_date.to_date, snapshots[0].created_at.to_date, @date_interval_in_days)
 
     # snapshots_per_resource_id values are sorted by date (descending)
     snapshots_per_resource_id={}
