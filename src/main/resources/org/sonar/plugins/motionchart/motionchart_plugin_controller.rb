@@ -35,21 +35,24 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     # 1 month => 1 snapshot per day
     # 3 months => 1 snapshot every 3 days
     # 1 year => 1 snapshot every 12 days (approximation !)
+    # 2 years => 1 snapshot every 15 days
     #
-    @date_interval_in_days=period_in_months
+    @date_interval_in_days=[period_in_months, 15].min
 
     snapshots=[]
     if @resource
       @display_only_lifetime=true
       # security is already checked by ResourceRestController
+
       if params[:components]=='true'
         snapshots=Snapshot.find_by_sql(
-          ['SELECT s1.id,s1.project_id,s1.created_at FROM snapshots s1,snapshots s2 WHERE s1.parent_snapshot_id=s2.id AND s1.status=? AND s2.project_id=? AND s2.status=? AND s2.created_at>=? ORDER BY s1.created_at desc',
-          Snapshot::STATUS_PROCESSED, @resource.id, Snapshot::STATUS_PROCESSED, min_date])
+          ['SELECT s1.id,s1.project_id,s1.created_at FROM snapshots s1,snapshots s2 WHERE s1.parent_snapshot_id=s2.id AND s1.status=? AND s2.project_id=? AND s2.status=? ORDER BY s1.created_at desc',
+          Snapshot::STATUS_PROCESSED, @resource.id, Snapshot::STATUS_PROCESSED])
       else
-        snapshots=Snapshot.find_by_sql(
-          ['SELECT s.id,s.project_id,s.created_at FROM snapshots s WHERE s.project_id=? AND s.status=? AND s.created_at>=? ORDER BY s.created_at desc',
-          @resource.id, Snapshot::STATUS_PROCESSED, min_date])
+        snapshots=Snapshot.find(:all,
+          :select => 'id,project_id,created_at',
+          :conditions => ['project_id=? AND status=?', @resource.id, Snapshot::STATUS_PROCESSED],
+          :order => 'created_at DESC')
       end
 
     else
@@ -57,11 +60,11 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       # top level projects
       snapshots=Snapshot.find(:all,
         :select => 'snapshots.id,snapshots.project_id,snapshots.created_at',
-        :conditions => ['scope=? AND qualifier=? AND status=? AND created_at>=?', Snapshot::SCOPE_SET, Snapshot::QUALIFIER_PROJECT, Snapshot::STATUS_PROCESSED, min_date],
+        :conditions => ['scope=? AND qualifier=? AND status=?', Snapshot::SCOPE_SET, Snapshot::QUALIFIER_PROJECT, Snapshot::STATUS_PROCESSED],
         :order => 'snapshots.created_at DESC')
     end
-    rows=(snapshots.empty? ? [] : load_rows(snapshots))
 
+    rows=(snapshots.empty? ? [] : load_rows(snapshots))
     datatable=load_datatable(rows)
 
     render :json => jsonp(rest_gwp_ok(datatable))
@@ -170,7 +173,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
     result=[]
     dates.each do |date|
-      while current_snapshot && current_snapshot.created_at.to_date>=date
+      while current_snapshot && current_snapshot.created_at.to_date>date
         index_snapshot+=1
         current_snapshot=(index_snapshot>=snapshots.size ? nil : snapshots[index_snapshot])
       end
