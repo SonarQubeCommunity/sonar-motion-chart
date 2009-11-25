@@ -46,11 +46,11 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
       if params[:components]=='true'
         snapshots=Snapshot.find_by_sql(
-          ['SELECT s1.id,s1.project_id,s1.created_at FROM snapshots s1,snapshots s2 WHERE s1.parent_snapshot_id=s2.id AND s1.status=? AND s2.project_id=? AND s2.status=? ORDER BY s1.created_at desc',
+          ['SELECT s1.id,s1.project_id,s1.created_at,s1.root_project_id FROM snapshots s1,snapshots s2 WHERE s1.parent_snapshot_id=s2.id AND s1.status=? AND s2.project_id=? AND s2.status=? ORDER BY s1.created_at desc',
           Snapshot::STATUS_PROCESSED, @resource.id, Snapshot::STATUS_PROCESSED])
       else
         snapshots=Snapshot.find(:all,
-          :select => 'id,project_id,created_at',
+          :select => 'id,project_id,created_at,root_project_id',
           :conditions => ['project_id=? AND status=?', @resource.id, Snapshot::STATUS_PROCESSED],
           :order => 'created_at DESC')
       end
@@ -59,11 +59,12 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       @display_only_lifetime=false
       # top level projects
       snapshots=Snapshot.find(:all,
-        :select => 'snapshots.id,snapshots.project_id,snapshots.created_at',
+        :select => 'snapshots.id,snapshots.project_id,snapshots.created_at,root_project_id',
         :conditions => ['scope=? AND qualifier=? AND status=?', Snapshot::SCOPE_SET, Snapshot::QUALIFIER_PROJECT, Snapshot::STATUS_PROCESSED],
         :order => 'snapshots.created_at DESC')
     end
-
+    snapshots=select_authorized(:user, snapshots)
+    
     rows=(snapshots.empty? ? [] : load_rows(snapshots))
     datatable=load_datatable(rows)
 

@@ -11,7 +11,7 @@
 
   <artifactId>sonar-motion-chart-plugin</artifactId>
   <packaging>jar</packaging>
-  <version>0.3-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Sonar Motion Chart plugin</name>
 
   <licenses>
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>1.11</version>
+      <version>1.12RC1</version>
     </dependency>
   </dependencies>
 
