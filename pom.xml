@@ -27,6 +27,10 @@
     <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/motion-chart</developerConnection>
     <url>http://svn.sonar-plugins.codehaus.org</url>
   </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13722</url>
+  </issueManagement>
 
   <developers>
     <developer>
