@@ -19,11 +19,11 @@
 #
 class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
-  private
-
   MAX_IN_ELEMENTS=990
   EMPTY_HASH={}
-
+  
+  private
+  
   def rest_call
     @metrics=Metric.by_keys(params[:metrics].split(','))
 

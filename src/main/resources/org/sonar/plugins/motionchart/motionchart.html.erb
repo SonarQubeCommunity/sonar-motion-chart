@@ -1,6 +1,5 @@
 <%
-plugin_class = Java::OrgSonarPluginsMotionchart::MotionChartPlugin
-metrics = Property.value(plugin_class::DEFAULT_METRICS_KEY, nil, plugin_class::DEFAULT_METRICS_VALUE) + ',' + Property.value(plugin_class::ADDITIONAL_METRICS_KEY, nil, plugin_class::ADDITIONAL_METRICS_DEFAULT_VALUE)
+metrics = Property.value(@page.getDefaultMetricsKey(), nil, @page.getDefaultMetricsValue()) + ',' + Property.value(@page.getAdditionalMetricsKey(), nil, @page.getAdditionalMetricsDefaultValue())
 ws_url = "#{ApplicationController.root_context}/api/plugins/MotionchartWebService?out=json&metrics=#{metrics}"
 ws_url = ws_url + "&resource=#{@project.id}" if @project
 %>
@@ -70,8 +69,8 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
 	function render_motion_chart(data_table) {
 		var chart = new google.visualization.MotionChart(document.getElementById('motion_chart'));
 		var options = {};
-		options['width'] = <%= Property.value(plugin_class::WIDTH_KEY, nil, plugin_class::DEFAULT_WIDTH) -%>;
-		options['height'] = <%= Property.value(plugin_class::HEIGHT_KEY, nil, plugin_class::DEFAULT_HEIGHT) -%>;
+		options['width'] = <%= Property.value(@page.getWidthKey(), nil, @page.getDefaultWidth()) -%>;
+		options['height'] = <%= Property.value(@page.getHeightKey(), nil, @page.getDefaultHeight()) -%>;
 		chart.draw(data_table, options);
 	}
 	

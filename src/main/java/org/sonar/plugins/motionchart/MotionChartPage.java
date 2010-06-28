@@ -28,6 +28,22 @@ import org.sonar.api.web.UserRole;
 @UserRole(UserRole.VIEWER)
 public class MotionChartPage extends AbstractRubyTemplate implements RubyRailsPage {
 
+  public static final String HEIGHT_KEY = "sonar.motionchart.height";
+  public static final String WIDTH_KEY = "sonar.motionchart.width";
+  public static final String DEFAULT_HEIGHT = "600";
+  public static final String DEFAULT_WIDTH = "800";
+
+  public static final String DEFAULT_METRICS_KEY = "sonar.motionchart.defaultmetrics";
+  /**
+   * Comma-separated list of the 4 axis metrics loaded by default : X, Y, color, size.
+   */
+  public static final String DEFAULT_METRICS_VALUE = "violations_density,coverage,function_complexity,complexity";
+
+  public static final String ADDITIONAL_METRICS_KEY = "sonar.motionchart.additionalmetrics";
+
+  public static final String ADDITIONAL_METRICS_DEFAULT_VALUE = "duplicated_lines_density,public_documented_api_density,uncovered_lines," +
+      "ncloc,test_execution_time,function_complexity";
+  
   public String getTitle() {
     return "Motion chart";
   }
@@ -39,5 +55,41 @@ public class MotionChartPage extends AbstractRubyTemplate implements RubyRailsPa
 
   public String getId() {
     return getClass().getName();
+  }
+
+  
+  /* USEFUL METHODS FOR THE JRUBY SIDE */
+
+
+  public String getHeightKey() {
+    return HEIGHT_KEY;
+  }
+
+  public String getWidthKey() {
+    return WIDTH_KEY;
+  }
+
+  public String getDefaultHeight() {
+    return DEFAULT_HEIGHT;
+  }
+
+  public String getDefaultWidth() {
+    return DEFAULT_WIDTH;
+  }
+
+  public String getDefaultMetricsKey() {
+    return DEFAULT_METRICS_KEY;
+  }
+
+  public String getDefaultMetricsValue() {
+    return DEFAULT_METRICS_VALUE;
+  }
+
+  public String getAdditionalMetricsKey() {
+    return ADDITIONAL_METRICS_KEY;
+  }
+
+  public String getAdditionalMetricsDefaultValue() {
+    return ADDITIONAL_METRICS_DEFAULT_VALUE;
   }
 }
