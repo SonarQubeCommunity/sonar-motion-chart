@@ -229,7 +229,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       end_index = (i+1) * MAX_IN_ELEMENTS
       measures.concat(ProjectMeasure.find(:all,
           :select => 'project_measures.value,project_measures.metric_id,project_measures.snapshot_id',
-          :conditions => ['rules_category_id IS NULL AND rule_id IS NULL AND rule_priority IS NULL AND metric_id IN (?) AND snapshot_id IN (?)',
+          :conditions => ['rules_category_id IS NULL AND rule_id IS NULL AND rule_priority IS NULL AND metric_id IN (?) AND snapshot_id IN (?) AND characteristic_id IS NULL',
             mids, sids[start_index...end_index]]))
     end
 
