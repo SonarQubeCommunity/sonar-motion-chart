@@ -5,18 +5,22 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
-    <version>6</version>
+    <version>7</version>
     <relativePath>../parent</relativePath>
   </parent>
 
   <artifactId>sonar-motion-chart-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>1.2-SNAPSHOT</version>
+
   <name>Sonar Motion Chart plugin</name>
   <description>Display how a set of metrics evolves over time.</description>
-  <inceptionYear>2009</inceptionYear>
   <url>http://docs.codehaus.org/display/SONAR/Motion+Chart+plugin</url>
-
+  <inceptionYear>2009</inceptionYear>
+  <organization>
+    <name>SonarSource</name>
+    <url>http://www.sonarsource.com</url>
+  </organization>
   <licenses>
     <license>
       <name>GNU LGPL 3</name>
@@ -24,11 +28,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
-  <organization>
-    <name>SonarSource</name>
-    <url>http://www.sonarsource.com</url>
-  </organization>
 
   <issueManagement>
     <system>jira</system>
@@ -59,27 +58,17 @@
     </developer>
   </developers>
 
+  <properties>
+    <sonar.version>2.3</sonar.version>
+    <sonar.pluginName>Motion Chart</sonar.pluginName>
+    <sonar.pluginClass>org.sonar.plugins.motionchart.MotionChartPlugin</sonar.pluginClass>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>2.3</version>
+      <version>${sonar.version}</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.sonar</groupId>
-        <artifactId>sonar-packaging-maven-plugin</artifactId>
-        <version>0.2</version>
-        <extensions>true</extensions>
-        <configuration>
-          <pluginKey>motionchart</pluginKey>
-          <pluginName>Motion Chart</pluginName>
-          <pluginClass>org.sonar.plugins.motionchart.MotionChartPlugin</pluginClass>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
