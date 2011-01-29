@@ -11,7 +11,7 @@
 
   <artifactId>sonar-motion-chart-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
 
   <name>Sonar Motion Chart plugin</name>
   <description>Display how a set of metrics evolves over time.</description>
@@ -35,9 +35,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/motion-chart</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/motion-chart</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/tags/sonar-motion-chart-plugin-1.2</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-motion-chart-plugin-1.2</developerConnection>
+    <url>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-motion-chart-plugin-1.2</url>
   </scm>
 
   <developers>
