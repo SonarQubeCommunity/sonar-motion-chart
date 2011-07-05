@@ -37,7 +37,10 @@ ws_url = ws_url + "&resource=#{@project.id}" if @project
 <div id="no_data" style="display:none">
 	<p>No data.</p>
 </div>
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+var jsProtocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+document.write(unescape("%3Cscript src='" + jsProtocol + "www.google.com/jsapi' type='text/javascript'%3E%3C/script%3E"));
+</script>
 <script type="text/javascript">
 
 	function motion_chart_query() {
