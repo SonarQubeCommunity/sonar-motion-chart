@@ -23,31 +23,33 @@ package org.sonar.plugins.motionchart;
 import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.plugins.motionchart.widgets.GlobalMotionChartWidget;
+import org.sonar.plugins.motionchart.widgets.ProjectMotionChartWidget;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Properties({
-    @Property(
-        key = MotionChartPage.WIDTH_KEY,
-        name = "Width",
-        description = "Chart width in pixels.",
-        defaultValue = MotionChartPage.DEFAULT_WIDTH),
-    @Property(
-        key = MotionChartPage.HEIGHT_KEY,
-        name = "Height",
-        description = "Chart height in pixels.",
-        defaultValue = MotionChartPage.DEFAULT_HEIGHT),
-    @Property(
-        key = MotionChartPage.DEFAULT_METRICS_KEY,
-        name = "Default axis metrics",
-        description = "Comma-separated list of the 4 axis metrics loaded by default : X, Y, color, size.",
-        defaultValue = MotionChartPage.DEFAULT_METRICS_VALUE),
-    @Property(
-        key = MotionChartPage.ADDITIONAL_METRICS_KEY,
-        name = "Additional metrics",
-        description = "Additional metrics which can be selected as axis.",
-        defaultValue = MotionChartPage.ADDITIONAL_METRICS_DEFAULT_VALUE)
+  @Property(
+    key = MotionChartPage.WIDTH_KEY,
+    name = "Width",
+    description = "Chart width in pixels.",
+    defaultValue = MotionChartPage.DEFAULT_WIDTH),
+  @Property(
+    key = MotionChartPage.HEIGHT_KEY,
+    name = "Height",
+    description = "Chart height in pixels.",
+    defaultValue = MotionChartPage.DEFAULT_HEIGHT),
+  @Property(
+    key = MotionChartPage.DEFAULT_METRICS_KEY,
+    name = "Default axis metrics",
+    description = "Comma-separated list of the 4 axis metrics loaded by default : X, Y, color, size.",
+    defaultValue = MotionChartPage.DEFAULT_METRICS_VALUE),
+  @Property(
+    key = MotionChartPage.ADDITIONAL_METRICS_KEY,
+    name = "Additional metrics",
+    description = "Additional metrics which can be selected as axis.",
+    defaultValue = MotionChartPage.ADDITIONAL_METRICS_DEFAULT_VALUE)
 })
 public class MotionChartPlugin implements Plugin {
 
@@ -64,7 +66,8 @@ public class MotionChartPlugin implements Plugin {
   }
 
   public List getExtensions() {
-    return Arrays.asList(MotionChartPage.class, MotionChartWebService.class);
+    return Arrays.asList(MotionChartPage.class, MotionChartWebService.class,
+        ProjectMotionChartWidget.class, GlobalMotionChartWidget.class);
   }
 
   @Override

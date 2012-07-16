@@ -1,0 +1,53 @@
+<%
+  metrics = widget_properties["metric-x"].key + ',' + widget_properties["metric-y"].key + ',' + widget_properties["metric-color"].key + ',' + widget_properties["metric-size"].key
+
+  ws_url = "#{ApplicationController.root_context}/api/plugins/MotionchartWebService?out=json&metrics=#{metrics}" + "&filter=#{widget_properties['filter']}"
+%>
+
+<script type="text/javascript" src="<%= ApplicationController.root_context + '/javascripts/motionchart-sonar.js' -%>"></script>
+
+<form>
+<table>
+  <tr>
+    <td><span class="note">Period: </span>
+      <select name="period" class="small" id="mc_period" onChange="motion_chart_query('<%= ws_url %>');return false;">
+        <option value="1">One month</option>
+        <option value="3" selected="selected">Three months</option>
+        <option value="6">Six months</option>
+        <option value="12">One year</option>
+        <option value="24">Two years</option>
+      </select>
+    </td>
+
+    <% if @project %>
+      <td width="15px"> </td>
+      <td><span class="note">Components: </span>
+        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onclick="motion_chart_query('<%= ws_url %>');return true;"></input>
+      </td>
+    <% else %>
+      <input type="hidden" name="components" id="mc_components"></input>
+    <% end %>
+
+    <td width="15px"> </td>
+    <td>
+      <%= image_tag('loading.gif', {:id => "mc_loading"}) %>
+    </td>
+  </tr>
+</table>
+</form>
+
+<div id="motion_chart" style="width: <%= widget_properties["chartWidth"] -%>px; height: <%= widget_properties["chartHeight"] -%>px"></div>
+<div id="no_data" style="display:none">
+	<p>No data.</p>
+</div>
+
+<script type="text/javascript">
+  var jsProtocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+  document.write(unescape("%3Cscript src='" + jsProtocol + "www.google.com/jsapi' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">	
+  Event.observe(window, "load", new function() {
+    google.load("visualization", "1", {packages:["motionchart"]});
+    google.setOnLoadCallback(function() { motion_chart_query('<%= ws_url %>')}); 
+  });
+</script>

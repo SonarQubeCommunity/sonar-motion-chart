@@ -54,7 +54,17 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
           :conditions => ['project_id=? AND status=?', @resource.id, Snapshot::STATUS_PROCESSED],
           :order => 'created_at DESC')
       end
-
+    elsif params[:filter]
+      filter=::Filter.find(:first, :conditions => {:kee => params[:filter]})
+      if filter
+        filter_context=::Filters.execute(filter, self, params)        
+        snapshots = filter_context.snapshots
+        # TODO => why do I need to search for the snapshots again...
+        snapshots = Snapshot.find(:all,
+          :select => 'snapshots.id,snapshots.project_id,snapshots.created_at,root_project_id',
+          :conditions => ['id in(?)', snapshots.map {|s| s.id.to_s}],
+          :order => 'snapshots.created_at DESC')
+      end
     else
       @display_only_lifetime=false
       # top level projects

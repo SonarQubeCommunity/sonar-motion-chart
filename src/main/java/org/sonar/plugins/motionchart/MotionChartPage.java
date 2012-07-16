@@ -43,24 +43,22 @@ public class MotionChartPage extends AbstractRubyTemplate implements RubyRailsPa
   public static final String ADDITIONAL_METRICS_KEY = "sonar.motionchart.additionalmetrics";
 
   public static final String ADDITIONAL_METRICS_DEFAULT_VALUE = "duplicated_lines_density,public_documented_api_density,uncovered_lines," +
-      "ncloc,test_execution_time,function_complexity";
-  
+    "ncloc,test_execution_time,function_complexity";
+
   public String getTitle() {
     return "Motion chart";
   }
 
   @Override
   public String getTemplatePath() {
-    return "/org/sonar/plugins/motionchart/motionchart.html.erb";
+    return "/org/sonar/plugins/motionchart/page/motionchart.html.erb";
   }
 
   public String getId() {
     return getClass().getName();
   }
 
-  
   /* USEFUL METHODS FOR THE JRUBY SIDE */
-
 
   public String getHeightKey() {
     return HEIGHT_KEY;

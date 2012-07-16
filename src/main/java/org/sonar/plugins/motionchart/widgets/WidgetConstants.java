@@ -17,23 +17,23 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+package org.sonar.plugins.motionchart.widgets;
 
-package org.sonar.plugins.motionchart;
+public final class WidgetConstants {
 
-import org.sonar.api.web.AbstractRubyTemplate;
-import org.sonar.api.web.RubyRailsWebservice;
+  public static final String METRIC_X_PROP_KEY = "metric-x";
+  public static final String METRIC_X_PROP_DEF_VALUE = "violations_density";
 
-public class MotionChartWebService extends AbstractRubyTemplate implements RubyRailsWebservice {
+  public static final String METRIC_Y_PROP_KEY = "metric-y";
+  public static final String METRIC_Y_PROP_DEF_VALUE = "coverage";
 
-  @Override
-  public String getTemplatePath() {
-    return "/org/sonar/plugins/motionchart/motionchart_plugin_controller.rb";
-    // return
-    // "/Users/fbellingard/Documents/Sonar/workspace/sonar-plugins/motion-chart/src/main/resources/org/sonar/plugins/motionchart/motionchart_plugin_controller.rb";
-  }
+  public static final String METRIC_COLOR_PROP_KEY = "metric-color";
+  public static final String METRIC_COLOR_PROP_DEF_VALUE = "function_complexity";
 
-  public String getId() {
-    return "MotionchartWebService";
-  }
+  public static final String METRIC_SIZE_PROP_KEY = "metric-size";
+  public static final String METRIC_SIZE_PROP_DEF_VALUE = "complexity";
+
+  public static final String CHART_HEIGHT_PROP_KEY = "chartHeight";
+  public static final String CHART_HEIGHT_PROP_DEF_VALUE = "300";
 
 }
