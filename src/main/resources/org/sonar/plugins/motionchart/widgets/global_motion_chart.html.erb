@@ -33,7 +33,11 @@
       <input type="hidden" name="components" id="mc_components"></input>
     <% end %>
 
-    <td width="15px"> </td>
+    <td width="15px">
+      <% if widget_properties['initChartOnLatestDate'] %>
+        <input type="hidden" name="showMostRecentMeasures" id="showMostRecentMeasures" value="true"></input>
+      <% end %>
+    </td>
     <td>
       <%= image_tag('loading.gif', {:id => "mc_loading"}) %>
     </td>

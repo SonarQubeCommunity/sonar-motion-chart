@@ -42,7 +42,8 @@ import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_Y_PRO
 @WidgetProperties(
 {
   @WidgetProperty(key = "title", type = WidgetPropertyType.STRING),
-  @WidgetProperty(key = "showComponentsByDefault", type = WidgetPropertyType.BOOLEAN, defaultValue = "true"),
+  @WidgetProperty(key = "showComponentsByDefault", type = WidgetPropertyType.BOOLEAN, defaultValue = "false"),
+  @WidgetProperty(key = "initChartOnLatestDate", type = WidgetPropertyType.BOOLEAN, defaultValue = "false"),
   @WidgetProperty(key = METRIC_X_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_X_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_Y_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_Y_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_COLOR_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_COLOR_PROP_DEF_VALUE),
