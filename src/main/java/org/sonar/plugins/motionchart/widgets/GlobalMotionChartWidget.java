@@ -41,16 +41,17 @@ import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_Y_PRO
 import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_Y_PROP_KEY;
 
 @WidgetCategory({"History", "Global"})
+@WidgetScope(GLOBAL)
 @WidgetProperties(
 {
   @WidgetProperty(key = "filter", type = WidgetPropertyType.FILTER, optional = false),
+  @WidgetProperty(key = "title", type = WidgetPropertyType.STRING),
   @WidgetProperty(key = METRIC_X_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_X_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_Y_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_Y_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_COLOR_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_COLOR_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_SIZE_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_SIZE_PROP_DEF_VALUE),
   @WidgetProperty(key = CHART_HEIGHT_PROP_KEY, type = WidgetPropertyType.INTEGER, defaultValue = CHART_HEIGHT_PROP_DEF_VALUE)
 })
-@WidgetScope(GLOBAL)
 public class GlobalMotionChartWidget extends AbstractRubyTemplate implements RubyRailsWidget {
   public String getId() {
     return "global_motion_chart";

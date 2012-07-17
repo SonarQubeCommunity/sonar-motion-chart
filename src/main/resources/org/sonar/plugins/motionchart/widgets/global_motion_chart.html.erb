@@ -2,9 +2,11 @@
   metrics = widget_properties["metric-x"].key + ',' + widget_properties["metric-y"].key + ',' + widget_properties["metric-color"].key + ',' + widget_properties["metric-size"].key
 
   ws_url = "#{ApplicationController.root_context}/api/plugins/MotionchartWebService?out=json&metrics=#{metrics}" + "&filter=#{widget_properties['filter']}"
+  
+  @widget_title = h(widget_properties['title']) if widget_properties['title']
 %>
 
-<script type="text/javascript" src="<%= ApplicationController.root_context + '/javascripts/motionchart-sonar.js' -%>"></script>
+<script type="text/javascript" src="<%= ApplicationController.root_context + '/static/motionchart/motionchart-sonar.js' -%>"></script>
 
 <form>
 <table>
@@ -19,10 +21,13 @@
       </select>
     </td>
 
-    <% if @project %>
+    <% 
+       if @project
+         showComponents = widget_properties['showComponentsByDefault']
+    %>
       <td width="15px"> </td>
       <td><span class="note">Components: </span>
-        <input type="checkbox" name="components" class="small" id="mc_components" value="true" checked="checked" onclick="motion_chart_query('<%= ws_url %>');return true;"></input>
+        <input type="checkbox" name="components" class="small" id="mc_components" value="true" <%= 'checked="checked"' if showComponents -%> onclick="motion_chart_query('<%= ws_url %>');return true;"></input>
       </td>
     <% else %>
       <input type="hidden" name="components" id="mc_components"></input>

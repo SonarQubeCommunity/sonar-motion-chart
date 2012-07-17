@@ -39,11 +39,22 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     #
     @date_interval_in_days=[period_in_months, 15].min
 
+    snapshots=load_snapshots(params)
+        
+    rows=(snapshots.empty? ? [] : load_rows(snapshots))
+    
+    datatable=load_datatable(rows)
+
+    render :json => jsonp(rest_gwp_ok(datatable))
+  end
+  
+  
+  def load_snapshots(params)
     snapshots=[]
+    
     if @resource
       @display_only_lifetime=true
       # security is already checked by ResourceRestController
-
       if params[:components]=='true'
         snapshots=Snapshot.find_by_sql(
           ['SELECT s1.id,s1.project_id,s1.created_at,s1.root_project_id FROM snapshots s1,snapshots s2 WHERE s1.parent_snapshot_id=s2.id AND s1.status=? AND s2.project_id=? AND s2.status=? ORDER BY s1.created_at desc',
@@ -55,6 +66,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
           :order => 'created_at DESC')
       end
     elsif params[:filter]
+      @display_only_lifetime=false
       filter=::Filter.find(:first, :conditions => {:kee => params[:filter]})
       if filter
         filter_context=::Filters.execute(filter, self, params)        
@@ -73,14 +85,9 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
         :conditions => ['scope=? AND qualifier=? AND status=?', Snapshot::SCOPE_SET, Snapshot::QUALIFIER_PROJECT, Snapshot::STATUS_PROCESSED],
         :order => 'snapshots.created_at DESC')
     end
-    snapshots=select_authorized(:user, snapshots)
     
-    rows=(snapshots.empty? ? [] : load_rows(snapshots))
-    datatable=load_datatable(rows)
-
-    render :json => jsonp(rest_gwp_ok(datatable))
+    select_authorized(:user, snapshots)
   end
-
 
 
 
