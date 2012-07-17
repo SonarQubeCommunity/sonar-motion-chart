@@ -27,9 +27,8 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
   def rest_call
     @metrics=Metric.by_keys(params[:metrics].split(','))
 
-    period_in_months=(params[:period] || 3).to_i
-    @min_date=Date.today()<<period_in_months
-
+    snapshots=load_snapshots(params)
+    
     #
     # results are limited to 30 snapshots per resource
     # 1 month => 1 snapshot per day
@@ -37,9 +36,14 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     # 1 year => 1 snapshot every 12 days (approximation !)
     # 2 years => 1 snapshot every 15 days
     #
-    @date_interval_in_days=[period_in_months, 15].min
-
-    snapshots=load_snapshots(params)
+    @min_date=snapshots.last.created_at
+    @date_interval_in_days=15
+    
+    period_in_months=(params[:period] || 3).to_i
+    if period_in_months > 0
+      @min_date=Date.today()<<period_in_months 
+      @date_interval_in_days=[period_in_months, 15].min
+    end
         
     rows=(snapshots.empty? ? [] : load_rows(snapshots))
     

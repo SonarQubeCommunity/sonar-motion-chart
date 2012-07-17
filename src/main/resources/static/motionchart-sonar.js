@@ -2,6 +2,9 @@ function motion_chart_query(url) {
   $('mc_loading').show();
   $('motion_chart').hide();
   $('no_data').hide();
+  if ($F('mc_period')!=null) {
+    url += '&period=' + $F('mc_period');
+  }
   if ($F('mc_components')!=null) {
     url += '&components=' + $F('mc_components');
   }
