@@ -11,14 +11,14 @@
 <form>
 <table>
   <tr>
-    <td><span class="note">Period: </span>
+    <td><span class="note"><%= message('widgets.period') -%>: </span>
       <select name="period" class="small" id="mc_period" onChange="motion_chart_query('<%= ws_url %>');return false;">
-        <option value="1">One month</option>
-        <option value="3" selected="selected">Three months</option>
-        <option value="6">Six months</option>
-        <option value="12">One year</option>
-        <option value="24">Two years</option>
-        <option value="0">Since the first analysis</option>
+        <option value="1"><%= message('widgets.one_month') -%></option>
+        <option value="3" selected="selected"><%= message('widgets.three_months') -%></option>
+        <option value="6"><%= message('widgets.six_months') -%></option>
+        <option value="12"><%= message('widgets.one_year') -%></option>
+        <option value="24"><%= message('widgets.two_years') -%></option>
+        <option value="0"><%= message('widgets.since_first_analysis') -%></option>
       </select>
     </td>
 
@@ -27,7 +27,7 @@
          showComponents = widget_properties['showComponentsByDefault']
     %>
       <td width="15px"> </td>
-      <td><span class="note">Components: </span>
+      <td><span class="note"><%= message('widgets.components') -%>: </span>
         <input type="checkbox" name="components" class="small" id="mc_components" value="true" <%= 'checked="checked"' if showComponents -%> onclick="motion_chart_query('<%= ws_url %>');return true;"></input>
       </td>
     <% else %>
