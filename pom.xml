@@ -13,7 +13,7 @@
   <packaging>sonar-plugin</packaging>
   <version>1.4-SNAPSHOT</version>
 
-  <name>Sonar Motion Chart plugin</name>
+  <name>Sonar Motion Chart Plugin</name>
   <description>Display how a set of metrics evolves over time (requires an internet access).</description>
   <url>http://docs.codehaus.org/display/SONAR/Motion+Chart+plugin</url>
   <inceptionYear>2009</inceptionYear>
@@ -42,12 +42,9 @@
 
   <developers>
     <developer>
-      <id>cedric.munger</id>
-      <name>Cedric Munger</name>
-      <email>cedric.munger@gmail.com</email>
-      <roles>
-        <role>developer</role>
-      </roles>
+      <id>fabemn</id>
+      <name>Fabrice Bellingard</name>
+      <email>fabrice.bellingard@sonarsource.com</email>
       <timezone>+1</timezone>
     </developer>
     <developer>
@@ -57,9 +54,9 @@
       <timezone>+1</timezone>
     </developer>
     <developer>
-      <id>fabemn</id>
-      <name>Fabrice Bellingard</name>
-      <email>fabrice.bellingard@sonarsource.com</email>
+      <id>cedric.munger</id>
+      <name>Cedric Munger</name>
+      <email>cedric.munger@gmail.com</email>
       <timezone>+1</timezone>
     </developer>
   </developers>

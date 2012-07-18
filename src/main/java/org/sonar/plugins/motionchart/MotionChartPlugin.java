@@ -1,5 +1,5 @@
 /*
- * Sonar Motion Chart plugin
+ * Sonar Motion Chart Plugin
  * Copyright (C) 2009 SonarSource
  * dev@sonar.codehaus.org
  *
@@ -17,61 +17,24 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 package org.sonar.plugins.motionchart;
 
-import org.sonar.api.Plugin;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
+import org.sonar.api.SonarPlugin;
 import org.sonar.plugins.motionchart.widgets.GlobalMotionChartWidget;
 import org.sonar.plugins.motionchart.widgets.ProjectMotionChartWidget;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Properties({
-  @Property(
-    key = MotionChartPage.WIDTH_KEY,
-    name = "Width",
-    description = "Chart width in pixels.",
-    defaultValue = MotionChartPage.DEFAULT_WIDTH),
-  @Property(
-    key = MotionChartPage.HEIGHT_KEY,
-    name = "Height",
-    description = "Chart height in pixels.",
-    defaultValue = MotionChartPage.DEFAULT_HEIGHT),
-  @Property(
-    key = MotionChartPage.DEFAULT_METRICS_KEY,
-    name = "Default axis metrics",
-    description = "Comma-separated list of the 4 axis metrics loaded by default : X, Y, color, size.",
-    defaultValue = MotionChartPage.DEFAULT_METRICS_VALUE),
-  @Property(
-    key = MotionChartPage.ADDITIONAL_METRICS_KEY,
-    name = "Additional metrics",
-    description = "Additional metrics which can be selected as axis.",
-    defaultValue = MotionChartPage.ADDITIONAL_METRICS_DEFAULT_VALUE)
-})
-public class MotionChartPlugin implements Plugin {
+public class MotionChartPlugin extends SonarPlugin {
 
-  public String getKey() {
-    return "motionchart";
-  }
-
-  public String getName() {
-    return "Motion chart";
-  }
-
-  public String getDescription() {
-    return "Motion chart";
-  }
-
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public List getExtensions() {
-    return Arrays.asList(MotionChartPage.class, MotionChartWebService.class,
-        ProjectMotionChartWidget.class, GlobalMotionChartWidget.class);
+    return Arrays.asList(
+        MotionChartWebService.class,
+        // widgets
+        ProjectMotionChartWidget.class,
+        GlobalMotionChartWidget.class);
   }
 
-  @Override
-  public String toString() {
-    return getKey();
-  }
 }

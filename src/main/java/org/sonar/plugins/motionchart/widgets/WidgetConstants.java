@@ -1,5 +1,5 @@
 /*
- * Sonar Motion Chart plugin
+ * Sonar Motion Chart Plugin
  * Copyright (C) 2009 SonarSource
  * dev@sonar.codehaus.org
  *
