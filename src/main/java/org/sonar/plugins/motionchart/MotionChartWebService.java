@@ -27,8 +27,6 @@ public class MotionChartWebService extends AbstractRubyTemplate implements RubyR
   @Override
   public String getTemplatePath() {
     return "/org/sonar/plugins/motionchart/motionchart_plugin_controller.rb";
-    // return
-    // "/Users/fbellingard/Documents/Sonar/workspace/sonar-plugins/motion-chart/src/main/resources/org/sonar/plugins/motionchart/motionchart_plugin_controller.rb";
   }
 
   public String getId() {

@@ -64,7 +64,5 @@ public class GlobalMotionChartWidget extends AbstractRubyTemplate implements Rub
   @Override
   protected String getTemplatePath() {
     return "/org/sonar/plugins/motionchart/widgets/global_motion_chart.html.erb";
-    // return
-    // "/Users/fbellingard/Documents/Sonar/workspace/sonar-plugins/motion-chart/src/main/resources/org/sonar/plugins/motionchart/widgets/global_motion_chart.html.erb";
   }
 }

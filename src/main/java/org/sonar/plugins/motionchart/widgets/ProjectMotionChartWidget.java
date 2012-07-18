@@ -61,7 +61,5 @@ public class ProjectMotionChartWidget extends AbstractRubyTemplate implements Ru
   @Override
   protected String getTemplatePath() {
     return "/org/sonar/plugins/motionchart/widgets/project_motion_chart.html.erb";
-    // return
-    // "/Users/fbellingard/Documents/Sonar/workspace/sonar-plugins/motion-chart/src/main/resources/org/sonar/plugins/motionchart/widgets/project_motion_chart.html.erb";
   }
 }
