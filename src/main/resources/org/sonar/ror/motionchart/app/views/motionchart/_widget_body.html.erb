@@ -2,8 +2,6 @@
   metrics = widget_properties["metric-x"].key + ',' + widget_properties["metric-y"].key + ',' + widget_properties["metric-color"].key + ',' + widget_properties["metric-size"].key
 
   ws_url = "#{ApplicationController.root_context}/api/plugins/MotionchartWebService?out=json&metrics=#{metrics}" + url_params
-  
-  @widget_title = h(widget_properties['title']) if widget_properties['title']
 %>
 
 <script type="text/javascript" src="<%= ApplicationController.root_context + '/static/motionchart/motionchart-sonar.js' -%>"></script>

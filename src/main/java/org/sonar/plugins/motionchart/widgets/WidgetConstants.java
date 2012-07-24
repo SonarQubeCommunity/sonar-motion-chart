@@ -34,6 +34,6 @@ public final class WidgetConstants {
   public static final String METRIC_SIZE_PROP_DEF_VALUE = "complexity";
 
   public static final String CHART_HEIGHT_PROP_KEY = "chartHeight";
-  public static final String CHART_HEIGHT_PROP_DEF_VALUE = "300";
+  public static final String CHART_HEIGHT_PROP_DEF_VALUE = "400";
 
 }

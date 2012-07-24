@@ -37,7 +37,7 @@ function render_motion_chart(data_table) {
     var day = latestDate.getDate();
     options['state'] = '{"time": "' + year + '-' + month + '-' + day + '"}';
   }
-  options['width'] = $('motion_chart').getOffsetParent().getWidth() - 50;
-  options['height'] = $('motion_chart').getOffsetParent().getHeight() - 50;
+  options['width'] = $('motion_chart').getWidth() - 10;
+  options['height'] = $('motion_chart').getHeight() - 10;
   chart.draw(data_table, options);
 }

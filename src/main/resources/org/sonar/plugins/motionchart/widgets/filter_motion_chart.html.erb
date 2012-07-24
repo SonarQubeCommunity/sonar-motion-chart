@@ -1,0 +1,12 @@
+<%
+  filter=::Filter.find(:first, :conditions => {:kee => widget_properties['filter']})
+  if filter
+    title = widget_properties['title'] || filter.name
+    @widget_title = h(title)
+    
+    url_params = "&filter=#{widget_properties['filter']}"
+%>
+
+  <%= render :partial => 'motionchart/widget_body', :locals => {:widget_properties => widget_properties, :url_params => url_params} -%>
+
+<% end %>

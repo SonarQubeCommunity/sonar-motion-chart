@@ -52,17 +52,17 @@ import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_Y_PRO
   @WidgetProperty(key = METRIC_SIZE_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_SIZE_PROP_DEF_VALUE),
   @WidgetProperty(key = CHART_HEIGHT_PROP_KEY, type = WidgetPropertyType.INTEGER, defaultValue = CHART_HEIGHT_PROP_DEF_VALUE)
 })
-public class GlobalMotionChartWidget extends AbstractRubyTemplate implements RubyRailsWidget {
+public class FilterMotionChartWidget extends AbstractRubyTemplate implements RubyRailsWidget {
   public String getId() {
-    return "global_motion_chart";
+    return "filter_motion_chart";
   }
 
   public String getTitle() {
-    return "Global Motion Chart";
+    return "Filter Motion Chart";
   }
 
   @Override
   protected String getTemplatePath() {
-    return "/org/sonar/plugins/motionchart/widgets/global_motion_chart.html.erb";
+    return "/org/sonar/plugins/motionchart/widgets/filter_motion_chart.html.erb";
   }
 }
