@@ -73,13 +73,9 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       @display_only_lifetime=false
       filter=::Filter.find(:first, :conditions => {:kee => params[:filter]})
       if filter
-        filter_context=::Filters.execute(filter, self, params)        
-        snapshots = filter_context.snapshots
-        # TODO => why do I need to search for the snapshots again...
-        snapshots = Snapshot.find(:all,
-          :select => 'snapshots.id,snapshots.project_id,snapshots.created_at,root_project_id',
-          :conditions => ['id in(?)', snapshots.map {|s| s.id.to_s}],
-          :order => 'snapshots.created_at DESC')
+        # we set the page size to maximum 1000 entries (=> more than 1000 items won't be displayed properly anyway)
+        filter_context=::Filters.execute(filter, self, params.merge({:page_size => 1000}))
+        snapshots = filter_context.snapshots.sort {|s1, s2| s2.created_at <=> s1.created_at}
       end
     else
       @display_only_lifetime=false
