@@ -17,21 +17,27 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.motionchart.widgets;
+package org.sonar.plugins.motionchart;
 
-public interface WidgetConstants {
-  String METRIC_X_PROP_KEY = "metric-x";
-  String METRIC_X_PROP_DEF_VALUE = "ncloc";
+import org.junit.Test;
 
-  String METRIC_Y_PROP_KEY = "metric-y";
-  String METRIC_Y_PROP_DEF_VALUE = "coverage";
+import java.io.File;
 
-  String METRIC_COLOR_PROP_KEY = "metric-color";
-  String METRIC_COLOR_PROP_DEF_VALUE = "duplicated_lines";
+import static org.fest.assertions.Assertions.assertThat;
 
-  String METRIC_SIZE_PROP_KEY = "metric-size";
-  String METRIC_SIZE_PROP_DEF_VALUE = "violations";
+public class MotionChartWebServiceTest {
+  @Test
+  public void is_production_mode() {
+    // Path to template is frequently changed in dev environments.
+    // This test verifies that this dev path has not been accidentally committed.
+    String path = new MotionChartWebService().getTemplatePath();
+    assertThat(getClass().getResource(path)).isNotNull();
+    assertThat(new File(path)).doesNotExist();
+  }
 
-  String CHART_HEIGHT_PROP_KEY = "chartHeight";
-  String CHART_HEIGHT_PROP_DEF_VALUE = "400";
+  @Test
+  public void has_id() {
+    // well, just to get a 100% coverage :D
+    assertThat(new MotionChartWebService().getId()).isNotEmpty();
+  }
 }

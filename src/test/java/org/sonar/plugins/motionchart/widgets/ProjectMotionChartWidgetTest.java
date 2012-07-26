@@ -19,19 +19,28 @@
  */
 package org.sonar.plugins.motionchart.widgets;
 
-public interface WidgetConstants {
-  String METRIC_X_PROP_KEY = "metric-x";
-  String METRIC_X_PROP_DEF_VALUE = "ncloc";
+import org.junit.Test;
+import org.sonar.plugins.motionchart.MotionChartWebService;
 
-  String METRIC_Y_PROP_KEY = "metric-y";
-  String METRIC_Y_PROP_DEF_VALUE = "coverage";
+import java.io.File;
 
-  String METRIC_COLOR_PROP_KEY = "metric-color";
-  String METRIC_COLOR_PROP_DEF_VALUE = "duplicated_lines";
+import static org.fest.assertions.Assertions.assertThat;
 
-  String METRIC_SIZE_PROP_KEY = "metric-size";
-  String METRIC_SIZE_PROP_DEF_VALUE = "violations";
+public class ProjectMotionChartWidgetTest {
+  @Test
+  public void is_production_mode() {
+    // Path to template is frequently changed in dev environments.
+    // This test verifies that this dev path has not been accidentally committed.
+    String path = new ProjectMotionChartWidget().getTemplatePath();
+    assertThat(getClass().getResource(path)).isNotNull();
+    assertThat(new File(path)).doesNotExist();
+  }
 
-  String CHART_HEIGHT_PROP_KEY = "chartHeight";
-  String CHART_HEIGHT_PROP_DEF_VALUE = "400";
+  @Test
+  public void has_id_and_title() {
+    // well, just to get a 100% coverage :D
+    ProjectMotionChartWidget widget = new ProjectMotionChartWidget();
+    assertThat(widget.getId()).isNotEmpty();
+    assertThat(widget.getTitle()).isNotEmpty();
+  }
 }
