@@ -29,27 +29,31 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
     snapshots=load_snapshots(params)
     
-    #
-    # results are limited to 30 snapshots per resource
-    # 1 month => 1 snapshot per day
-    # 3 months => 1 snapshot every 3 days
-    # 1 year => 1 snapshot every 12 days (approximation !)
-    # 2 years => 1 snapshot every 15 days
-    #
-    @min_date=snapshots.last.created_at
-    @date_interval_in_days=15
-    
-    period_in_months=(params[:period] || 3).to_i
-    if period_in_months > 0
-      @min_date=Date.today()<<period_in_months 
-      @date_interval_in_days=[period_in_months, 15].min
+    if snapshots.empty?
+      render :json => jsonp(rest_gwp_ok({:cols => [], :rows => []}))
+    else
+      #
+      # results are limited to 30 snapshots per resource
+      # 1 month => 1 snapshot per day
+      # 3 months => 1 snapshot every 3 days
+      # 1 year => 1 snapshot every 12 days (approximation !)
+      # 2 years => 1 snapshot every 15 days
+      #
+      @min_date=snapshots.last.created_at
+      @date_interval_in_days=15
+      
+      period_in_months=(params[:period] || 3).to_i
+      if period_in_months > 0
+        @min_date=Date.today()<<period_in_months 
+        @date_interval_in_days=[period_in_months, 15].min
+      end
+          
+      rows=(snapshots.empty? ? [] : load_rows(snapshots))
+      
+      datatable=load_datatable(rows)
+  
+      render :json => jsonp(rest_gwp_ok(datatable))
     end
-        
-    rows=(snapshots.empty? ? [] : load_rows(snapshots))
-    
-    datatable=load_datatable(rows)
-
-    render :json => jsonp(rest_gwp_ok(datatable))
   end
   
   
