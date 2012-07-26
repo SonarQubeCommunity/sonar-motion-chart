@@ -20,7 +20,6 @@
 package org.sonar.plugins.motionchart.widgets;
 
 import org.junit.Test;
-import org.sonar.plugins.motionchart.MotionChartWebService;
 
 import java.io.File;
 
