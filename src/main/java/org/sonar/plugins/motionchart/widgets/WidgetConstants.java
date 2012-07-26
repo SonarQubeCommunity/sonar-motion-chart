@@ -22,16 +22,16 @@ package org.sonar.plugins.motionchart.widgets;
 public final class WidgetConstants {
 
   public static final String METRIC_X_PROP_KEY = "metric-x";
-  public static final String METRIC_X_PROP_DEF_VALUE = "violations_density";
+  public static final String METRIC_X_PROP_DEF_VALUE = "ncloc";
 
   public static final String METRIC_Y_PROP_KEY = "metric-y";
   public static final String METRIC_Y_PROP_DEF_VALUE = "coverage";
 
   public static final String METRIC_COLOR_PROP_KEY = "metric-color";
-  public static final String METRIC_COLOR_PROP_DEF_VALUE = "function_complexity";
+  public static final String METRIC_COLOR_PROP_DEF_VALUE = "duplicated_lines";
 
   public static final String METRIC_SIZE_PROP_KEY = "metric-size";
-  public static final String METRIC_SIZE_PROP_DEF_VALUE = "complexity";
+  public static final String METRIC_SIZE_PROP_DEF_VALUE = "violations";
 
   public static final String CHART_HEIGHT_PROP_KEY = "chartHeight";
   public static final String CHART_HEIGHT_PROP_DEF_VALUE = "400";
