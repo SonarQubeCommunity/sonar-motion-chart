@@ -79,7 +79,12 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       if filter
         # we set the page size to maximum 1000 entries (=> more than 1000 items won't be displayed properly anyway)
         filter_context=::Filters.execute(filter, self, params.merge({:page_size => 1000}))
-        snapshots = filter_context.snapshots.sort {|s1, s2| s2.created_at <=> s1.created_at}
+        project_ids = filter_context.snapshots.map {|s| s.project_id}.uniq
+        snapshots=Snapshot.find(:all,
+          :select => 'id,project_id,created_at,root_project_id',
+          :conditions => ['project_id IN (?) AND status=?', project_ids, Snapshot::STATUS_PROCESSED],
+          :order => 'created_at DESC')
+        
       end
     else
       @display_only_lifetime=false
