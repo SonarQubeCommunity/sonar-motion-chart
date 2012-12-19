@@ -17,10 +17,12 @@
   <description>Display how a set of metrics evolves over time (requires an internet access).</description>
   <url>http://docs.codehaus.org/display/SONAR/Motion+Chart+plugin</url>
   <inceptionYear>2009</inceptionYear>
+
   <organization>
     <name>SonarSource</name>
     <url>http://www.sonarsource.com</url>
   </organization>
+
   <licenses>
     <license>
       <name>GNU LGPL 3</name>
@@ -62,7 +64,7 @@
   </developers>
 
   <properties>
-    <sonar.version>3.1</sonar.version>
+    <sonar.version>3.4-SNAPSHOT</sonar.version>
     <sonar.pluginName>Motion Chart</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.motionchart.MotionChartPlugin</sonar.pluginClass>
   </properties>
@@ -76,7 +78,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.10</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
     <dependency>

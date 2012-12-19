@@ -17,18 +17,19 @@
 # License along with Sonar; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 #
-class Api::MotionchartWebServiceController < Api::GwpResourcesController
+require 'set'
+class MotionChartController < Api::GwpResourcesController
 
   MAX_IN_ELEMENTS=990
   EMPTY_HASH={}
-  
+
   private
-  
+
   def rest_call
     @metrics=Metric.by_keys(params[:metrics].split(','))
 
-    snapshots=load_snapshots(params)
-    
+    snapshots=load_snapshots
+
     if snapshots.empty?
       render :json => jsonp(rest_gwp_ok({:cols => [], :rows => []}))
     else
@@ -41,63 +42,52 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       #
       @min_date=snapshots.last.created_at
       @date_interval_in_days=15
-      
+
       period_in_months=(params[:period] || 3).to_i
       if period_in_months > 0
-        @min_date=Date.today()<<period_in_months 
+        @min_date=Date.today()<<period_in_months
         @date_interval_in_days=[period_in_months, 15].min
       end
-          
-      rows=(snapshots.empty? ? [] : load_rows(snapshots))
-      
-      datatable=load_datatable(rows)
-  
+
+      datatable=load_datatable(load_rows(snapshots))
       render :json => jsonp(rest_gwp_ok(datatable))
     end
   end
-  
-  
-  def load_snapshots(params)
-    snapshots=[]
-    
+
+  def load_snapshots
+    filter=nil
     if @resource
       @display_only_lifetime=true
-      # security is already checked by ResourceRestController
-      if params[:components]=='true'
-        snapshots=Snapshot.find_by_sql(
-          ['SELECT s1.id,s1.project_id,s1.created_at,s1.root_project_id FROM snapshots s1,snapshots s2 WHERE s1.parent_snapshot_id=s2.id AND s1.status=? AND s2.project_id=? AND s2.status=? ORDER BY s1.created_at desc',
-          Snapshot::STATUS_PROCESSED, @resource.id, Snapshot::STATUS_PROCESSED])
-      else
-        snapshots=Snapshot.find(:all,
-          :select => 'id,project_id,created_at,root_project_id',
-          :conditions => ['project_id=? AND status=?', @resource.id, Snapshot::STATUS_PROCESSED],
-          :order => 'created_at DESC')
-      end
-    elsif params[:filter]
+      filter = MeasureFilter.new
+      filter.set_criteria_value(:baseId, @resource.id)
+      filter.set_criteria_value(:onBaseComponents, params[:components]=='true')
+    elsif params[:filter].present?
       @display_only_lifetime=false
-      filter=::Filter.find(:first, :conditions => {:kee => params[:filter]})
+      filter=MeasureFilter.find_by_id(params[:filter])
       if filter
-        # we set the page size to maximum 1000 entries (=> more than 1000 items won't be displayed properly anyway)
-        filter_context=::Filters.execute(filter, self, params.merge({:page_size => 1000}))
-        project_ids = filter_context.snapshots.map {|s| s.project_id}.uniq
-        snapshots=Snapshot.find(:all,
-          :select => 'id,project_id,created_at,root_project_id',
-          :conditions => ['project_id IN (?) AND status=?', project_ids, Snapshot::STATUS_PROCESSED],
-          :order => 'created_at DESC')
-        
+        filter.load_criteria_from_data
       end
     else
       @display_only_lifetime=false
-      # top level projects
-      snapshots=Snapshot.find(:all,
-        :select => 'snapshots.id,snapshots.project_id,snapshots.created_at,root_project_id',
-        :conditions => ['scope=? AND qualifier=? AND status=?', Snapshot::SCOPE_SET, Snapshot::QUALIFIER_PROJECT, Snapshot::STATUS_PROCESSED],
-        :order => 'snapshots.created_at DESC')
+      filter = MeasureFilter.new
+      filter.set_criteria_value(:qualifiers, 'TRK')
     end
-    
-    select_authorized(:user, snapshots)
-  end
+    if filter
+      filter.set_criteria_value(:sort, 'date')
+      filter.set_criteria_value(:asc, false)
+      filter.set_criteria_value(:display, nil)
+      filter.set_criteria_value(:pageSize, 1000)
+      filter.execute(self, :user => current_user)
 
+      resource_ids = Set.new(filter.rows.map { |r| r.snapshot.project_id })
+      Snapshot.find(:all,
+                    :select => 'id,project_id,created_at,root_project_id',
+                    :conditions => ['project_id IN (?) AND status=?', resource_ids, 'P'],
+                    :order => 'created_at DESC')
+    else
+      []
+    end
+  end
 
 
   #-------------------------------------------------------------
@@ -160,8 +150,6 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
   end
 
 
-
-
   #-------------------------------------------------------------
   #
   # Load data
@@ -170,6 +158,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
   # snapshots: descending sort
   def load_rows(snapshots)
+    return [] if snapshots.empty?
     # dates: descending sort
     dates=reference_dates(@min_date.to_date, snapshots[0].created_at.to_date, @date_interval_in_days)
 
@@ -189,8 +178,6 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
     fill_measures(rows)
     rows
   end
-
-
 
 
   def build_rows(snapshots, dates)
@@ -220,7 +207,7 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
   end
 
   def fill_resources(rows)
-    rids=rows.collect{|row| row[0].project_id}.uniq.compact
+    rids=rows.collect { |row| row[0].project_id }.uniq.compact
 
     # split IN clause in maximum 990 elements (bug with Oracle)
     resources=[]
@@ -245,8 +232,8 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
 
   def fill_measures(rows)
     # potential bug with Oracle (IN elements >= 1000)
-    sids=rows.collect{|row| row[0].id}
-    mids=@metrics.select{|m| m.id}
+    sids=rows.collect { |row| row[0].id }
+    mids=@metrics.select { |m| m.id }
     measures=[]
     loops = sids.length / MAX_IN_ELEMENTS
     loops += 1 if sids.length % MAX_IN_ELEMENTS > 0
@@ -254,9 +241,9 @@ class Api::MotionchartWebServiceController < Api::GwpResourcesController
       start_index = i * MAX_IN_ELEMENTS
       end_index = (i+1) * MAX_IN_ELEMENTS
       measures.concat(ProjectMeasure.find(:all,
-          :select => 'project_measures.value,project_measures.metric_id,project_measures.snapshot_id',
-          :conditions => ['rules_category_id IS NULL AND rule_id IS NULL AND rule_priority IS NULL AND metric_id IN (?) AND snapshot_id IN (?) AND characteristic_id IS NULL AND person_id IS NULL',
-            mids, sids[start_index...end_index]]))
+                                          :select => 'project_measures.value,project_measures.metric_id,project_measures.snapshot_id',
+                                          :conditions => ['rules_category_id IS NULL AND rule_id IS NULL AND rule_priority IS NULL AND metric_id IN (?) AND snapshot_id IN (?) AND characteristic_id IS NULL AND person_id IS NULL',
+                                                          mids, sids[start_index...end_index]]))
     end
 
 

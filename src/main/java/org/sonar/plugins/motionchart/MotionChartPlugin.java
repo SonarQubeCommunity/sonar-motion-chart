@@ -30,11 +30,7 @@ public class MotionChartPlugin extends SonarPlugin {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   public List getExtensions() {
-    return Arrays.asList(
-        MotionChartWebService.class,
-        // widgets
-        ProjectMotionChartWidget.class,
-        FilterMotionChartWidget.class);
+    return Arrays.asList(ProjectMotionChartWidget.class, FilterMotionChartWidget.class);
   }
 
 }

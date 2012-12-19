@@ -1,6 +1,5 @@
 <%
   url_params = "&resource=#{@project.id}"
-  
   title = h(widget_properties['title']) if widget_properties['title']
 %>
 
@@ -10,4 +9,4 @@
 </div>
 <% end %>
 
-<%= render :partial => 'motionchart/widget_body', :locals => {:widget_properties => widget_properties, :url_params => url_params} -%>
+<%= render :partial => 'motion_chart/widget_body', :locals => {:widget => widget, :widget_properties => widget_properties, :url_params => url_params} -%>

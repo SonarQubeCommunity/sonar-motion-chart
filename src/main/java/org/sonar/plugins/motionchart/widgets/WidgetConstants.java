@@ -34,4 +34,6 @@ public interface WidgetConstants {
 
   String CHART_HEIGHT_PROP_KEY = "chartHeight";
   String CHART_HEIGHT_PROP_DEF_VALUE = "400";
+
+  String INIT_CHART_ON_LATEST_DATE = "initChartOnLatestDate";
 }

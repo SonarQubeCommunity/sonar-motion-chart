@@ -20,6 +20,7 @@
 package org.sonar.plugins.motionchart.widgets;
 
 import org.junit.Test;
+import org.sonar.plugins.motionchart.MotionChartPlugin;
 
 import java.io.File;
 
@@ -41,5 +42,10 @@ public class ProjectMotionChartWidgetTest {
     ProjectMotionChartWidget widget = new ProjectMotionChartWidget();
     assertThat(widget.getId()).isNotEmpty();
     assertThat(widget.getTitle()).isNotEmpty();
+  }
+
+  @Test
+  public void should_be_registered_in_plugin_extensions() {
+    assertThat(new MotionChartPlugin().getExtensions()).contains(ProjectMotionChartWidget.class);
   }
 }

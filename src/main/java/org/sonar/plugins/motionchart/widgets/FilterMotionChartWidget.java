@@ -30,6 +30,7 @@ import org.sonar.api.web.WidgetScope;
 import static org.sonar.api.web.WidgetScope.GLOBAL;
 import static org.sonar.plugins.motionchart.widgets.WidgetConstants.CHART_HEIGHT_PROP_DEF_VALUE;
 import static org.sonar.plugins.motionchart.widgets.WidgetConstants.CHART_HEIGHT_PROP_KEY;
+import static org.sonar.plugins.motionchart.widgets.WidgetConstants.INIT_CHART_ON_LATEST_DATE;
 import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_COLOR_PROP_DEF_VALUE;
 import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_COLOR_PROP_KEY;
 import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_SIZE_PROP_DEF_VALUE;
@@ -41,11 +42,10 @@ import static org.sonar.plugins.motionchart.widgets.WidgetConstants.METRIC_Y_PRO
 
 @WidgetCategory({"History", "Global"})
 @WidgetScope(GLOBAL)
-@WidgetProperties(
-{
+@WidgetProperties({
   @WidgetProperty(key = "filter", type = WidgetPropertyType.FILTER, optional = false),
   @WidgetProperty(key = "title", type = WidgetPropertyType.STRING),
-  @WidgetProperty(key = "initChartOnLatestDate", type = WidgetPropertyType.BOOLEAN, defaultValue = "false"),
+  @WidgetProperty(key = INIT_CHART_ON_LATEST_DATE, type = WidgetPropertyType.BOOLEAN, defaultValue = "false"),
   @WidgetProperty(key = METRIC_X_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_X_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_Y_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_Y_PROP_DEF_VALUE),
   @WidgetProperty(key = METRIC_COLOR_PROP_KEY, type = WidgetPropertyType.METRIC, defaultValue = METRIC_COLOR_PROP_DEF_VALUE),

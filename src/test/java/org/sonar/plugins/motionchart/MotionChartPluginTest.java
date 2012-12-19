@@ -26,6 +26,6 @@ import static org.fest.assertions.Assertions.assertThat;
 public class MotionChartPluginTest {
   @Test
   public void getExtensions() {
-    assertThat(new MotionChartPlugin().getExtensions()).hasSize(3);
+    assertThat(new MotionChartPlugin().getExtensions()).hasSize(2);
   }
 }

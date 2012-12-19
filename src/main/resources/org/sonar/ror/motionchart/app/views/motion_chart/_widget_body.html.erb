@@ -1,0 +1,55 @@
+<%
+   metrics = widget_properties["metric-x"].key + ',' + widget_properties["metric-y"].key + ',' + widget_properties["metric-color"].key + ',' + widget_properties["metric-size"].key
+   ws_url = "metrics=#{metrics}" + url_params
+%>
+<% content_for :script do %>
+  <script src="<%= ApplicationController.root_context + '/static/motionchart/motionchart-sonar.js' -%>"></script>
+  <script src="http://www.google.com/jsapi"></script>
+  <script>
+    google.load('visualization', '1', {'packages': ['motionchart']});
+    $j(document).ready(function () {
+      google.setOnLoadCallback(loadMotionChart<%= widget.id -%>);
+    });
+    function loadMotionChart<%= widget.id -%>() {
+      loadMotionChart(<%= widget.id -%>, '<%= ws_url -%>', <%= widget_properties['initChartOnLatestDate'] -%>);
+    }
+  </script>
+<% end %>
+
+<form id="motion-chart-form-<%= widget.id -%>">
+  <table>
+    <tr>
+      <td>
+        <span class="note"><%= message('motionchart.period') -%>: </span>
+        <select name="period" class="small" onChange="loadMotionChart<%= widget.id -%>();return false;">
+          <option value="1"><%= message('motionchart.one_month') -%></option>
+          <option value="3" selected="selected"><%= message('motionchart.three_months') -%></option>
+          <option value="6"><%= message('motionchart.six_months') -%></option>
+          <option value="12"><%= message('motionchart.one_year') -%></option>
+          <option value="24"><%= message('motionchart.two_years') -%></option>
+          <option value="0"><%= message('motionchart.since_first_analysis') -%></option>
+        </select>
+      </td>
+
+      <%
+         if @project
+      %>
+        <td width="15px"></td>
+        <td>
+          <label for="components"><span class="note"><%= message('motionchart.components') -%>: </span></label>
+          <input type="checkbox" name="components" class="small" value="true" <%= 'checked="checked"' if widget_properties['showComponentsByDefault'] -%> onchange="loadMotionChart<%= widget.id -%>();return false;">
+        </td>
+      <% end %>
+      <td class="sep">
+      </td>
+      <td>
+        <%= image_tag('loading.gif', {:id => "motion-chart-loading-#{widget.id}"}) %>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<div id="motion-chart-<%= widget.id -%>" style="height: <%= widget_properties["chartHeight"] -%>px"></div>
+<div id="motion-chart-nodata-<%= widget.id -%>" style="display:none">
+  <p><%= message('no_data') -%></p>
+</div>
