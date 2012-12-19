@@ -2,10 +2,10 @@
   filter=MeasureFilter.find(widget_properties['filter'])
   if filter
     title = widget_properties['title'] || filter.name
-    @widget_title = h(title)
+    @widget_title = link_to h(title), {:controller => 'measures', :action => 'filter', :id => filter.id}
     url_params = "&filter=#{filter.id}"
 %>
-
   <%= render :partial => 'motion_chart/widget_body', :locals => {:widget => widget, :widget_properties => widget_properties, :url_params => url_params} -%>
-
+<% else %>
+  <p><%= image_tag 'warning.png' %> <%= message 'motionchart.unknown_filter_warning' -%></p>
 <% end %>

@@ -17,21 +17,22 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.motionchart.widgets;
+package org.sonar.plugins.motionchart;
 
 import org.junit.Test;
 import org.sonar.plugins.motionchart.MotionChartPlugin;
+import org.sonar.plugins.motionchart.ProjectMotionChartWidget;
 
 import java.io.File;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class FilterMotionChartWidgetTest {
+public class ProjectMotionChartWidgetTest {
   @Test
   public void is_production_mode() {
     // Path to template is frequently changed in dev environments.
     // This test verifies that this dev path has not been accidentally committed.
-    String path = new FilterMotionChartWidget().getTemplatePath();
+    String path = new ProjectMotionChartWidget().getTemplatePath();
     assertThat(getClass().getResource(path)).isNotNull();
     assertThat(new File(path)).doesNotExist();
   }
@@ -39,13 +40,13 @@ public class FilterMotionChartWidgetTest {
   @Test
   public void has_id_and_title() {
     // well, just to get a 100% coverage :D
-    FilterMotionChartWidget widget = new FilterMotionChartWidget();
+    ProjectMotionChartWidget widget = new ProjectMotionChartWidget();
     assertThat(widget.getId()).isNotEmpty();
     assertThat(widget.getTitle()).isNotEmpty();
   }
 
   @Test
   public void should_be_registered_in_plugin_extensions() {
-    assertThat(new MotionChartPlugin().getExtensions()).contains(FilterMotionChartWidget.class);
+    assertThat(new MotionChartPlugin().getExtensions()).contains(ProjectMotionChartWidget.class);
   }
 }

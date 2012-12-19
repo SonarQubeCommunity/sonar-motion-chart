@@ -20,8 +20,6 @@
 package org.sonar.plugins.motionchart;
 
 import org.sonar.api.SonarPlugin;
-import org.sonar.plugins.motionchart.widgets.FilterMotionChartWidget;
-import org.sonar.plugins.motionchart.widgets.ProjectMotionChartWidget;
 
 import java.util.Arrays;
 import java.util.List;

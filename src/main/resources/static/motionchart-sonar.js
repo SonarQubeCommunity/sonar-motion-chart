@@ -17,8 +17,10 @@ function loadMotionChart(widgetId, queryString, initOnLastDate) {
       return;
     }
     if (response.getDataTable().getNumberOfRows() > 0) {
+      $j('#motion-chart-' + widgetId).show();
       drawMotionChart(response.getDataTable(), widgetId, initOnLastDate);
     } else {
+      $j('#motion-chart-' + widgetId).hide();
       $j('#motion-chart-nodata-' + widgetId).show();
     }
   });
