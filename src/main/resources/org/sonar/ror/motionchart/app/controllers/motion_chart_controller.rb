@@ -56,11 +56,19 @@ class MotionChartController < Api::GwpResourcesController
 
   def load_snapshots
     filter=nil
+    snapshots=nil
     if @resource
       @display_only_lifetime=true
-      filter = MeasureFilter.new
-      filter.set_criteria_value(:baseId, @resource.id)
-      filter.set_criteria_value(:onBaseComponents, params[:components]=='true')
+      if params[:components]=='true'
+        filter = MeasureFilter.new
+        filter.set_criteria_value(:baseId, @resource.id)
+        filter.set_criteria_value(:onBaseComponents, true)
+      else
+        snapshots=Snapshot.find(:all,
+                                :select => 'id,project_id,created_at,root_project_id',
+                                :conditions => ['project_id=? AND status=?', @resource.id, Snapshot::STATUS_PROCESSED],
+                                :order => 'created_at DESC')
+      end
     elsif params[:filter].present?
       @display_only_lifetime=false
       filter=MeasureFilter.find_by_id(params[:filter])
@@ -72,7 +80,8 @@ class MotionChartController < Api::GwpResourcesController
       filter = MeasureFilter.new
       filter.set_criteria_value(:qualifiers, 'TRK')
     end
-    if filter
+
+    if filter && !snapshots
       filter.set_criteria_value(:sort, 'date')
       filter.set_criteria_value(:asc, false)
       filter.set_criteria_value(:display, nil)
@@ -80,13 +89,12 @@ class MotionChartController < Api::GwpResourcesController
       filter.execute(self, :user => current_user)
 
       resource_ids = Set.new(filter.rows.map { |r| r.snapshot.project_id })
-      Snapshot.find(:all,
+      snapshots = Snapshot.find(:all,
                     :select => 'id,project_id,created_at,root_project_id',
                     :conditions => ['project_id IN (?) AND status=?', resource_ids, 'P'],
                     :order => 'created_at DESC')
-    else
-      []
     end
+    snapshots || []
   end
 
 
