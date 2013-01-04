@@ -37,9 +37,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/motion-chart</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/motion-chart</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
+    <connection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</developerConnection>
+    <url>https://github.com/SonarCommunity/sonar-motion-chart</url>
   </scm>
 
   <developers>
