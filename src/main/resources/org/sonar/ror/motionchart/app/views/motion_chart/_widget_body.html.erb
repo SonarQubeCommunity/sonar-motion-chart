@@ -4,7 +4,7 @@
 %>
 <% content_for :script do %>
   <script src="<%= ApplicationController.root_context + '/static/motionchart/motionchart-sonar.js' -%>"></script>
-  <script src="http://www.google.com/jsapi"></script>
+  <script src="//www.google.com/jsapi"></script>
   <script>
     google.load('visualization', '1', {'packages': ['motionchart']});
     $j(document).ready(function () {
