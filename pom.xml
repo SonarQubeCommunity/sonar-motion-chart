@@ -35,6 +35,11 @@
     <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/13722</url>
   </issueManagement>
 
+  <ciManagement>
+    <system>jenkins</system>
+    <url>https://sonarplugins.ci.cloudbees.com/job/motion-chart/</url>
+  </ciManagement>
+
   <scm>
     <connection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</connection>
     <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</developerConnection>
