@@ -30,8 +30,9 @@ function drawMotionChart(data_table, widgetId, initOnLastDate) {
   var chart = new google.visualization.MotionChart(document.getElementById('motion-chart-' + widgetId));
   var options = {};
   if (initOnLastDate) {
-    var latestDate = data_table.getDistinctValues(1).last();
-    var year = latestDate.getFullYear();
+    var allDates=data_table.getDistinctValues(1);
+    var latestDate = allDates[allDates.length -1];    
+    var year = latestDate.getFullYear();  
     var month = latestDate.getMonth() + 1;
     if (month < 10) {
       month = "0" + month;
