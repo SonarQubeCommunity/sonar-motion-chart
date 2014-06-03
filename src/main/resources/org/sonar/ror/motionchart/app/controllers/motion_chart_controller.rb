@@ -61,7 +61,7 @@ class MotionChartController < Api::GwpResourcesController
       @display_only_lifetime=true
       if params[:components]=='true'
         filter = MeasureFilter.new
-        filter.set_criteria_value(:baseId, @resource.id)
+        filter.set_criteria_value(:base, @resource.key)
         filter.set_criteria_value(:onBaseComponents, true)
       else
         snapshots=Snapshot.find(:all,
