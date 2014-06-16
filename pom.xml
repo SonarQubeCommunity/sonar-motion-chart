@@ -10,7 +10,7 @@
 
   <artifactId>sonar-motion-chart-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7</version>
 
   <name>SonarQube Motion Chart Plugin</name>
   <description>Display how a set of metrics evolves over time (requires an internet access).</description>
@@ -44,7 +44,7 @@
     <connection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</connection>
     <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</developerConnection>
     <url>https://github.com/SonarCommunity/sonar-motion-chart</url>
-    <tag>HEAD</tag>
+    <tag>1.7</tag>
   </scm>
 
   <developers>
