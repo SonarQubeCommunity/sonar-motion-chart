@@ -14,7 +14,7 @@
 
   <name>SonarQube Motion Chart Plugin</name>
   <description>Display how a set of metrics evolves over time (requires an internet access).</description>
-  <url>http://docs.codehaus.org/display/SONAR/Motion+Chart+plugin</url>
+  <url>http://redirect.sonarsource.com/plugins/motionchart.html</url>
   <inceptionYear>2009</inceptionYear>
 
   <organization>
