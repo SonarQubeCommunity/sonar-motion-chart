@@ -41,9 +41,9 @@
   </ciManagement>
 
   <scm>
-    <connection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</connection>
-    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-motion-chart.git</developerConnection>
-    <url>https://github.com/SonarCommunity/sonar-motion-chart</url>
+    <connection>scm:git:git@github.com:SonarSource/sonar-motion-chart.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarSource/sonar-motion-chart.git</developerConnection>
+    <url>https://github.com/SonarSource/sonar-motion-chart</url>
     <tag>HEAD</tag>
   </scm>
 
