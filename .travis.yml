@@ -10,7 +10,8 @@ script:
 
 cache:
   directories:
-    - '$HOME/.m2/repository'
+    - $HOME/.m2/repository
+    - $HOME/.sonar
 
 notifications:
   email: false
