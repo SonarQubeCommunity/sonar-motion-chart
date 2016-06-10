@@ -5,8 +5,7 @@ install: true
 jdk:
   - oraclejdk7
 
-script:
-  - ./travis.sh
+script: mvn verify -Dmaven.test.redirectTestOutputToFile=false -B -e -V
 
 matrix:
   fast_finish: true
